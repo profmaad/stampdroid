@@ -108,6 +108,7 @@
 	    android:textSize="20sp"
 	    android:text="@string/balance"
 	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:paddingTop="4dp"
 	    />
   <LinearLayout android:id="@+id/balance_layout"
 		  android:layout_width="match_parent"
@@ -134,6 +135,7 @@
 		android:layout_height="wrap_content"
 		android:gravity="left|center_vertical"
 		android:textSize="16sp"
+		android:textColor="#b22222"
 		/>
     </LinearLayout>
     <LinearLayout android:id="@+id/balance_btc_layout"
@@ -154,8 +156,25 @@
 		android:layout_height="wrap_content"
 		android:gravity="right|center_vertical"
 		android:textSize="16sp"
+		android:textColor="#b22222"
 		/>
     </LinearLayout>
   </LinearLayout>
+  <TextView android:id="@+id/orders_header"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="20sp"
+	    android:text="@string/open_orders"
+	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:paddingTop="4dp"
+	    />
+  <TextView android:id="@+id/transactions_header"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="20sp"
+	    android:text="@string/past_transactions"
+	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:paddingTop="4dp"
+	    />
 </LinearLayout>
 

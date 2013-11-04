@@ -6,4 +6,6 @@
     <string name="ticker_bidask">Bid/Ask</string>
     <string name="ticker_lowhigh">Low/High</string>
     <string name="balance">Current Balance</string>
+    <string name="open_orders">Open Orders</string>
+    <string name="past_transactions">Past Transactions</string>
 </resources>

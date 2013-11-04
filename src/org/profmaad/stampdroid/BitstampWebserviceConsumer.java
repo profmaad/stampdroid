@@ -86,6 +86,45 @@ public class BitstampWebserviceConsumer
 
 		return new JSONObject();
 	}
+	public JSONArray openOrders()
+	{
+		try
+		{
+			String result_body = doRequest("open_orders", new HashMap<String, String>(), true);
+			JSONArray open_orders_array = (JSONArray)new JSONTokener(result_body).nextValue();
+		}
+		catch(Exception e)
+		{
+			Log.e(app_name, e.toString());			
+		}
+		return new JSONArray();
+	}
+	public JSONArray userTransactions(int offset)
+	{
+		return userTransactions(offset, 100, false);
+	}
+	public JSONArray userTransactions(int offset, int limit)
+	{
+		return userTransactions(offset, limit, false);
+	}
+	public JSONArray userTransactions(int offset, int limit, boolean sort_ascending)
+	{
+		HashMap<String, String> parameters = new HashMap<String, String>(3);
+		parameters.put("offset", String.valueOf(offset));
+		parameters.put("limit", String.valueOf(limit));
+		parameters.put("sort", sort_ascending ? "asc" : "desc");
+
+		try
+		{
+			String result_body = doRequest("user_transactions", parameters, true);
+			JSONArray user_transactions_array = (JSONArray)new JSONTokener(result_body).nextValue();
+		}
+		catch(Exception e)
+		{
+			Log.e(app_name, e.toString());
+		}
+		return new JSONArray();
+	}
 
 	private String doRequest(String api_resource, Map<String, String> parameters, boolean authenticated_request) throws Exception
 	{
