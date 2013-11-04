@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">StampDroid</string>
+    <string name="ticker">Ticker</string>
+    <string name="ticker_volume">Volume:</string>
+    <string name="ticker_bidask">Bid/Ask</string>
+    <string name="ticker_lowhigh">Low/High</string>
+    <string name="balance">Current Balance</string>
 </resources>

@@ -20,6 +20,10 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
 
+import org.json.JSONTokener;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -50,31 +54,37 @@ public class BitstampWebserviceConsumer
 		app_name = context.getString(R.string.app_name);
 	}
 
-	public void ticker()
+	public JSONObject ticker()
 	{
 		try
 		{
-			Log.i(app_name, doRequest("ticker", new HashMap<String, String>(), false));
-		}
-		catch(Exception e)
-		{
-			Log.e(app_name, e.toString());
-		}
-	}
-	public String balance()
-	{
-		try
-		{
-			String result = doRequest("balance", new HashMap<String, String>(), true);
-			Log.i(app_name, result);
-			return result;
+			String result_body = doRequest("ticker", new HashMap<String, String>(), false);
+			JSONObject ticker_object = (JSONObject)new JSONTokener(result_body).nextValue();
+
+			return ticker_object;
 		}
 		catch(Exception e)
 		{
 			Log.e(app_name, e.toString());
 		}
 
-		return new String();
+		return new JSONObject();
+	}
+	public JSONObject balance()
+	{
+		try
+		{
+			String result_body = doRequest("balance", new HashMap<String, String>(), true);
+			JSONObject balance_object = (JSONObject)new JSONTokener(result_body).nextValue();
+
+			return balance_object;
+		}
+		catch(Exception e)
+		{
+			Log.e(app_name, e.toString());
+		}
+
+		return new JSONObject();
 	}
 
 	private String doRequest(String api_resource, Map<String, String> parameters, boolean authenticated_request) throws Exception
