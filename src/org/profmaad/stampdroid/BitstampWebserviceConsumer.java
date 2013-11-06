@@ -91,17 +91,25 @@ public class BitstampWebserviceConsumer
 		try
 		{
 			String result_body = doRequest("open_orders", new HashMap<String, String>(), true);
+			Log.i("StampDroid", "Got reply for open orders: "+result_body);
 			JSONArray open_orders_array = (JSONArray)new JSONTokener(result_body).nextValue();
+
+			return open_orders_array;
 		}
 		catch(Exception e)
 		{
-			Log.e(app_name, e.toString());			
+			Log.e(app_name, e.toString());
 		}
 		return new JSONArray();
 	}
-	public JSONArray userTransactions(int offset)
+
+	public JSONArray userTransactions()
 	{
-		return userTransactions(offset, 100, false);
+		return userTransactions(0, 100, false);
+	}
+	public JSONArray userTransactions(int limit)
+	{
+		return userTransactions(0, limit, false);
 	}
 	public JSONArray userTransactions(int offset, int limit)
 	{
@@ -117,7 +125,10 @@ public class BitstampWebserviceConsumer
 		try
 		{
 			String result_body = doRequest("user_transactions", parameters, true);
+			Log.i("StampDroid", "Got reply for past_transactions: "+result_body);
 			JSONArray user_transactions_array = (JSONArray)new JSONTokener(result_body).nextValue();
+
+			return user_transactions_array;
 		}
 		catch(Exception e)
 		{

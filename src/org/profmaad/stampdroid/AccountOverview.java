@@ -7,6 +7,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ListView;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -30,6 +31,9 @@ public class AccountOverview extends Activity
 	private TextView balance_btc_total_label;
 	private TextView balance_btc_reserved_label;
 
+	private ListView open_orders_list;
+	private ListView past_transactions_list;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -52,6 +56,9 @@ public class AccountOverview extends Activity
 		balance_usd_reserved_label = (TextView)findViewById(R.id.balance_usd_reserved);
 		balance_btc_total_label = (TextView)findViewById(R.id.balance_btc_total);
 		balance_btc_reserved_label = (TextView)findViewById(R.id.balance_btc_reserved);
+
+		open_orders_list = (ListView)findViewById(R.id.overview_open_orders_list);
+		past_transactions_list = (ListView)findViewById(R.id.overview_past_transactions_list);
 
 		new AsyncTask<Context, Void, JSONObject>()
 		{
@@ -84,6 +91,40 @@ public class AccountOverview extends Activity
 			protected void onPostExecute(JSONObject balance)
 			{
 				updateBalance(balance);
+			}
+		}.execute(this);
+
+		new AsyncTask<Context, Void, JSONArray>()
+		{
+			@Override
+			protected JSONArray doInBackground(Context... params)
+			{
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				
+				return bitstamp.openOrders();
+			}
+			
+			@Override
+			protected void onPostExecute(JSONArray open_orders)
+			{
+				updateOpenOrders(open_orders);
+			}
+		}.execute(this);
+
+		new AsyncTask<Context, Void, JSONArray>()
+		{
+			@Override
+			protected JSONArray doInBackground(Context... params)
+			{
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				
+				return bitstamp.userTransactions(5);
+			}
+			
+			@Override
+			protected void onPostExecute(JSONArray past_transactions)
+			{
+				updatePastTransactions(past_transactions);
 			}
 		}.execute(this);
     }
@@ -139,5 +180,22 @@ public class AccountOverview extends Activity
 
 			Toast.makeText(this, "Failed to update account balance", Toast.LENGTH_SHORT);
 		}
+	}
+	
+	private void updateOpenOrders(JSONArray open_orders)
+	{
+		Log.i(log_tag, "Got new open orders: "+open_orders.toString());
+
+		OpenOrdersArrayAdapter open_orders_array_adapter = OpenOrdersArrayAdapter.create(this, open_orders);
+		
+		open_orders_list.setAdapter(open_orders_array_adapter);
+	}
+	private void updatePastTransactions(JSONArray past_transactions)
+	{
+		Log.i(log_tag, "Got new past transactions: "+past_transactions.toString());
+
+		PastTransactionsArrayAdapter past_transactions_array_adapter = PastTransactionsArrayAdapter.create(this, past_transactions);
+		
+		past_transactions_list.setAdapter(past_transactions_array_adapter);
 	}
 }

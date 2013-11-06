@@ -8,4 +8,5 @@
     <string name="balance">Current Balance</string>
     <string name="open_orders">Open Orders</string>
     <string name="past_transactions">Past Transactions</string>
+    <string name="open_order_row_at">at</string>
 </resources>

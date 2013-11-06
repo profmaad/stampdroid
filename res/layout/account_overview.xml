@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    >
+	      android:orientation="vertical"
+	      android:layout_width="match_parent"
+	      android:layout_height="match_parent"
+	      android:layout_marginLeft="8dp"
+	      android:layout_marginRight="8dp"
+	      >
   <TextView android:id="@+id/ticker_header"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -111,12 +111,12 @@
 	    android:paddingTop="4dp"
 	    />
   <LinearLayout android:id="@+id/balance_layout"
-		  android:layout_width="match_parent"
-		  android:layout_height="wrap_content"
-		  android:paddingTop="4dp"
-		  android:paddingBottom="4dp"
-		  android:orientation="horizontal"
-		  >
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="4dp"
+		android:paddingBottom="4dp"
+		android:orientation="horizontal"
+		>
     <LinearLayout android:id="@+id/balance_usd_layout"
 		  android:layout_width="match_parent"
 		  android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
 		android:layout_height="wrap_content"
 		android:gravity="left|center_vertical"
 		android:textSize="16sp"
-		android:textColor="#b22222"
+		android:textColor="@color/reserved"
 		/>
     </LinearLayout>
     <LinearLayout android:id="@+id/balance_btc_layout"
@@ -156,7 +156,7 @@
 		android:layout_height="wrap_content"
 		android:gravity="right|center_vertical"
 		android:textSize="16sp"
-		android:textColor="#b22222"
+		android:textColor="@color/reserved"
 		/>
     </LinearLayout>
   </LinearLayout>
@@ -168,6 +168,10 @@
 	    style="?android:attr/listSeparatorTextViewStyle"
 	    android:paddingTop="4dp"
 	    />
+  <ListView android:id="@+id/overview_open_orders_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    />
   <TextView android:id="@+id/transactions_header"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -176,5 +180,8 @@
 	    style="?android:attr/listSeparatorTextViewStyle"
 	    android:paddingTop="4dp"
 	    />
+  <ListView android:id="@+id/overview_past_transactions_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    />
 </LinearLayout>
-
