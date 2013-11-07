@@ -125,7 +125,15 @@ public class PastTransactionsArrayAdapter extends ArrayAdapter<JSONObject>
 
 				view_holder.from_label.setText("");
 				view_holder.relation_label.setText("");
-				view_holder.to_label.setText(String.format("$ %.2f", past_transaction.getDouble("usd")));
+
+				if(past_transaction.getDouble("btc") == 0.0)
+				{
+					view_holder.to_label.setText(String.format("$ %.2f", past_transaction.getDouble("usd")));
+				}
+				else
+				{
+					view_holder.to_label.setText(String.format("฿ %.8f", past_transaction.getDouble("btc")));
+				}
 
 				break;
 			case 1:
@@ -134,7 +142,15 @@ public class PastTransactionsArrayAdapter extends ArrayAdapter<JSONObject>
 
 				view_holder.from_label.setText("");
 				view_holder.relation_label.setText("");
-				view_holder.to_label.setText(String.format("$ %.2f", past_transaction.getDouble("usd")));
+
+				if(past_transaction.getDouble("btc") == 0.0)
+				{
+					view_holder.to_label.setText(String.format("$ %.2f", -past_transaction.getDouble("usd")));
+				}
+				else
+				{
+					view_holder.to_label.setText(String.format("฿ %.8f", -past_transaction.getDouble("btc")));
+				}
 
 				break;
 			case 2:
@@ -152,7 +168,7 @@ public class PastTransactionsArrayAdapter extends ArrayAdapter<JSONObject>
 					view_holder.type_label.setText("Sold");
 					view_holder.type_label.setTextColor(sell_colour);
 
-					view_holder.from_label.setText(String.format("฿ %.8f", past_transaction.getDouble("btc")));
+					view_holder.from_label.setText(String.format("฿ %.8f", -past_transaction.getDouble("btc")));
 					view_holder.relation_label.setText("for");
 					view_holder.to_label.setText(String.format("$ %.2f", past_transaction.getDouble("usd")));
 				}
