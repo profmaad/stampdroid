@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
+import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
@@ -84,6 +86,17 @@ public class AccountOverview extends Activity
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	public void openOpenOrdersList(View view)
+	{
+		Intent intent = new Intent(this, OpenOrders.class);
+		startActivity(intent);
+	}
+	public void openPastTransactionsList(View view)
+	{
+		Intent intent = new Intent(this, UserTransactions.class);
+		startActivity(intent);
 	}
 
 	private void refresh()

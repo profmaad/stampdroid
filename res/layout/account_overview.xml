@@ -167,6 +167,8 @@
 	    android:text="@string/open_orders"
 	    style="?android:attr/listSeparatorTextViewStyle"
 	    android:paddingTop="4dp"
+	    android:clickable="true"
+	    android:onClick="openOpenOrdersList"
 	    />
   <ListView android:id="@+id/overview_open_orders_list"
 	    android:layout_width="match_parent"
@@ -179,6 +181,8 @@
 	    android:text="@string/past_transactions"
 	    style="?android:attr/listSeparatorTextViewStyle"
 	    android:paddingTop="4dp"
+	    android:clickable="true"
+	    android:onClick="openPastTransactionsList"
 	    />
   <ListView android:id="@+id/overview_past_transactions_list"
 	    android:layout_width="match_parent"

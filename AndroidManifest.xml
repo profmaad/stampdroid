@@ -13,6 +13,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="UserTransactions"
+                  android:label="@string/user_transactions"
+		  android:parentActivityName="AccountOverview"
+		  >
+	  <meta-data android:name="android.support.PARENT_ACTIVITY"
+		     android:value="AccountOverview"
+		     />
+        </activity>
+        <activity android:name="OpenOrders"
+                  android:label="@string/open_orders"
+		  android:parentActivityName="AccountOverview"
+		  >
+	  <meta-data android:name="android.support.PARENT_ACTIVITY"
+		     android:value="AccountOverview"
+		     />
+        </activity>
     </application>
     <uses-sdk android:minSdkVersion="18" />
     <uses-permission android:name="android.permission.INTERNET" />
