@@ -27,7 +27,7 @@ public class OpenOrders extends ListActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.open_orders);
+        setContentView(R.layout.open_orders);
 
 		log_tag = getString(R.string.app_name);
 

@@ -1,6 +1,7 @@
 package org.profmaad.stampdroid;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.os.AsyncTask;
@@ -17,11 +18,9 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class UserTransactions extends Activity
+public class UserTransactions extends ListActivity
 {
 	private String log_tag;
-
-	private ListView transactions_list;
 
     /** Called when the activity is first created. */
     @Override
@@ -35,8 +34,6 @@ public class UserTransactions extends Activity
 		ActionBar action_bar = getActionBar();
 		action_bar.setDisplayHomeAsUpEnabled(true);
 
-		transactions_list = (ListView)findViewById(R.id.transactions_list);
-		
 		refresh();
     }
 
@@ -86,6 +83,6 @@ public class UserTransactions extends Activity
 
 		PastTransactionsArrayAdapter past_transactions_array_adapter = PastTransactionsArrayAdapter.create(this, transactions);
 		
-		transactions_list.setAdapter(past_transactions_array_adapter);
+		setListAdapter(past_transactions_array_adapter);
 	}
 }

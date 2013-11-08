@@ -11,4 +11,6 @@
     <string name="open_order_row_at">at</string>
     <string name="action_refresh">Refresh</string>
     <string name="user_transactions">Past Transactions</string>
+    <string name="open_orders_empty">No Open Orders</string>
+    <string name="user_transactions_empty">No Transactions so far</string>
 </resources>

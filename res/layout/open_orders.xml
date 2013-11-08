@@ -6,8 +6,16 @@
 	      android:layout_marginLeft="8dp"
 	      android:layout_marginRight="8dp"
 	      >
-  <ListView android:id="@+id/open_orders_list"
+  <ListView android:id="@android:id/list"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
+	    />
+  <TextView android:id="@android:id/empty"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/open_orders_empty"
+	    android:textSize="36sp"
+	    android:gravity="center"
+	    android:paddingTop="16dp"
 	    />
 </LinearLayout>
