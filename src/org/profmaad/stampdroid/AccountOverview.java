@@ -8,6 +8,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -59,75 +62,100 @@ public class AccountOverview extends Activity
 
 		open_orders_list = (ListView)findViewById(R.id.overview_open_orders_list);
 		past_transactions_list = (ListView)findViewById(R.id.overview_past_transactions_list);
+		
+		refresh();
+    }
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();		
+		inflater.inflate(R.menu.account_overview_actions, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+		case R.id.action_refresh:
+			refresh();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void refresh()
+	{
 		new AsyncTask<Context, Void, JSONObject>()
 		{
 			@Override
 			protected JSONObject doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
-				
+                
 				return bitstamp.ticker();
 			}
-			
+            
 			@Override
 			protected void onPostExecute(JSONObject ticker)
 			{
 				updateTicker(ticker);
 			}
 		}.execute(this);
-
+		
 		new AsyncTask<Context, Void, JSONObject>()
 		{
 			@Override
 			protected JSONObject doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
-				
+                
 				return bitstamp.balance();
 			}
-			
+            
 			@Override
 			protected void onPostExecute(JSONObject balance)
 			{
 				updateBalance(balance);
 			}
 		}.execute(this);
-
+		
 		new AsyncTask<Context, Void, JSONArray>()
 		{
 			@Override
 			protected JSONArray doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
-				
+                
 				return bitstamp.openOrders();
 			}
-			
+            
 			@Override
 			protected void onPostExecute(JSONArray open_orders)
 			{
 				updateOpenOrders(open_orders);
 			}
 		}.execute(this);
-
+		
 		new AsyncTask<Context, Void, JSONArray>()
 		{
 			@Override
 			protected JSONArray doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
-				
+                
 				return bitstamp.userTransactions(5);
 			}
-			
+            
 			@Override
 			protected void onPostExecute(JSONArray past_transactions)
 			{
 				updatePastTransactions(past_transactions);
 			}
 		}.execute(this);
-    }
+	}
 
 	private void updateTicker(JSONObject ticker)
 	{
