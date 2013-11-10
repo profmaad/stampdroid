@@ -1,62 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingTop="4dp"
     android:paddingBottom="4dp"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
-    android:columnCount="2"
-    android:rowCount="4"
     >
-  <TextView android:id="@+id/account_settings_client_id_label"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:textSize="16sp"
-	    android:gravity="left|center_vertical"
-	    android:text="@string/client_id_label"
-	    />
-  <EditText android:id="@+id/account_settings_client_id"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="fill_horizontal"
-	    android:textSize="16sp"
-	    />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+    <TextView android:id="@+id/account_settings_client_id_label"
+	      android:layout_width="100dp"
+	      android:layout_height="wrap_content"
+	      android:textSize="20sp"
+	      android:gravity="left|center_vertical"
+	      android:text="@string/client_id_label"
+	      />
+    <EditText android:id="@+id/account_settings_client_id"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_weight="1"
+	      android:textSize="20sp"
+	      />
+    <ImageButton android:id="@+id/account_settings_client_id_scan_button"
+		 android:layout_width="48dp"
+		 android:layout_height="48dp"
+		 android:src="@drawable/ic_barcode"
+		 android:scaleType="fitCenter"
+		 android:adjustViewBounds="true"
+		 android:onClick="scan"
+		 />
+  </LinearLayout>
 
-  <TextView android:id="@+id/account_settings_api_key_label"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:textSize="16sp"
-	    android:gravity="left|center_vertical"
-	    android:text="@string/api_key_label"
-	    />
-  <EditText android:id="@+id/account_settings_api_key"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="fill_horizontal"
-	    android:textSize="16sp"
-	    />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+    <TextView android:id="@+id/account_settings_api_key_label"
+	      android:layout_width="100dp"
+	      android:layout_height="wrap_content"
+	      android:textSize="20sp"
+	      android:gravity="left|center_vertical"
+	      android:text="@string/api_key_label"
+	      />
+    <EditText android:id="@+id/account_settings_api_key"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_weight="1"
+	      android:textSize="20sp"
+	      />
+    <ImageButton android:id="@+id/account_settings_api_key_scan_button"
+		 android:layout_width="48dp"
+		 android:layout_height="48dp"
+		 android:src="@drawable/ic_barcode"
+		 android:scaleType="fitCenter"
+		 android:adjustViewBounds="true"
+		 android:onClick="scan"
+		 />
+  </LinearLayout>
 
-  <TextView android:id="@+id/account_settings_api_secret_label"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:textSize="16sp"
-	    android:gravity="left|center_vertical"
-	    android:text="@string/api_secret_label"
-	    />
-  <EditText android:id="@+id/account_settings_api_secret"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="fill_horizontal"
-	    android:textSize="16sp"
-	    />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+    <TextView android:id="@+id/account_settings_api_secret_label"
+	      android:layout_width="100dp"
+	      android:layout_height="wrap_content"
+	      android:textSize="20sp"
+	      android:gravity="left|center_vertical"
+	      android:text="@string/api_secret_label"
+	      />
+    <EditText android:id="@+id/account_settings_api_secret"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_weight="1"
+	      android:textSize="20sp"
+	      />
+    <ImageButton android:id="@+id/account_settings_api_secret_scan_button"
+		 android:layout_width="48dp"
+		 android:layout_height="48dp"
+		 android:src="@drawable/ic_barcode"
+		 android:scaleType="fitCenter"
+		 android:adjustViewBounds="true"
+		 android:onClick="scan"
+		 />
+  </LinearLayout>
 
   <Button android:id="@+id/account_settings_save"
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
+	  android:layout_gravity="right"
 	  android:text="@string/save"
 	  android:onClick="save"
-	  android:layout_gravity="right"
-	  android:layout_column="1"
 	  />
-</GridLayout>
+</LinearLayout>

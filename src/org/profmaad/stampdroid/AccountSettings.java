@@ -10,15 +10,25 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ImageButton;
 import android.view.View;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 public class AccountSettings extends Activity
 {
+	private final static String SCAN_INTENT_EXTRA = "org.profmaad.stampdroid.scan_type";
 	private String log_tag;
 
-	private EditText client_id_edit;
-	private EditText api_key_edit;
-	private EditText api_secret_edit;
+	private EditText client_id_edit;  // 0
+	private EditText api_key_edit;    // 1
+	private EditText api_secret_edit; // 2
+
+	private ImageButton client_id_scan_button;
+	private ImageButton api_key_scan_button;
+	private ImageButton api_secret_scan_button;
+	private int current_scan_type; // not really a pretty solution, but the barcode scanner API doesn't really allow for better approaches
 
     /** Called when the activity is first created. */
     @Override
@@ -33,6 +43,10 @@ public class AccountSettings extends Activity
 		api_key_edit = (EditText)findViewById(R.id.account_settings_api_key);
 		api_secret_edit = (EditText)findViewById(R.id.account_settings_api_secret);
 
+		client_id_scan_button = (ImageButton)findViewById(R.id.account_settings_client_id_scan_button);
+		api_key_scan_button = (ImageButton)findViewById(R.id.account_settings_api_key_scan_button);
+		api_secret_scan_button = (ImageButton)findViewById(R.id.account_settings_api_secret_scan_button);
+		
 		try
 		{
 			load();
@@ -94,5 +108,49 @@ public class AccountSettings extends Activity
 		}
 
 		finishActivity(0);
+	}
+
+	public void scan(View view)
+	{
+		IntentIntegrator integrator = new IntentIntegrator(this);
+
+		current_scan_type = -1;
+		if(view == client_id_scan_button)
+		{
+			current_scan_type = 0;
+		}
+		else if(view == api_key_scan_button)
+		{
+			current_scan_type = 1;
+		}
+		else if(view == api_secret_scan_button)
+		{
+			current_scan_type = 2;
+		}
+
+		integrator.initiateScan();		
+	}
+
+	public void onActivityResult(int request_code, int result_code, Intent intent)
+	{
+		IntentResult scan_result = IntentIntegrator.parseActivityResult(request_code, result_code, intent);
+
+		if(scan_result != null && intent != null)
+		{
+			String contents = scan_result.getContents();
+
+			switch(current_scan_type)
+			{
+			case 0:
+				client_id_edit.setText(contents);
+				break;
+			case 1:
+				api_key_edit.setText(contents);
+				break;
+			case 2:
+				api_secret_edit.setText(contents);
+				break;
+			}
+		}
 	}
 }
