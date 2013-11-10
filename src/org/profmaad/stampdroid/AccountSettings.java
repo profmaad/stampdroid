@@ -64,9 +64,35 @@ public class AccountSettings extends Activity
 	{
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		client_id_edit.setText(preferences.getString("org.profmaad.stampdroid.client_id", ""));
-		api_key_edit.setText(preferences.getString("org.profmaad.stampdroid.api_key", ""));
-		api_secret_edit.setText(preferences.getString("org.profmaad.stampdroid.api_secret", ""));
+		client_id_edit.setText("");
+		if(preferences.contains("org.profmaad.stampdroid.client_id"))
+		{
+			client_id_edit.setHint(R.string.hidden);
+		}
+		else
+		{
+			client_id_edit.setHint("");
+		}
+
+		api_key_edit.setText("");
+		if(preferences.contains("org.profmaad.stampdroid.api_key"))
+		{
+			api_key_edit.setHint(R.string.hidden);
+		}
+		else
+		{
+			api_key_edit.setHint("");
+		}
+
+		api_secret_edit.setText("");
+		if(preferences.contains("org.profmaad.stampdroid.api_secret"))
+		{
+			api_secret_edit.setHint(R.string.hidden);
+		}
+		else
+		{
+			api_secret_edit.setHint("");
+		}
 	}
 
 	public void save(View view)

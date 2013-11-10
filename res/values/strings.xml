@@ -19,4 +19,5 @@
     <string name="api_secret_label">API Secret:</string>
     <string name="save">Save</string>
     <string name="account_settings">Account Settings</string>
+    <string name="hidden">Hidden</string>
 </resources>
