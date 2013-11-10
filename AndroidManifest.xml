@@ -29,6 +29,14 @@
 		     android:value="AccountOverview"
 		     />
         </activity>
+        <activity android:name="AccountSettings"
+                  android:label="@string/account_settings"
+		  android:parentActivityName="AccountOverview"
+		  >
+	  <meta-data android:name="android.support.PARENT_ACTIVITY"
+		     android:value="AccountOverview"
+		     />
+        </activity>
     </application>
     <uses-sdk android:minSdkVersion="18" />
     <uses-permission android:name="android.permission.INTERNET" />

@@ -83,9 +83,18 @@ public class AccountOverview extends Activity
 		case R.id.action_refresh:
 			refresh();
 			return true;
+		case R.id.action_account_settings:
+			openAccountSettings();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	public void openAccountSettings()
+	{
+		Intent intent = new Intent(this, AccountSettings.class);
+		startActivityForResult(intent, 0);
 	}
 
 	public void openOpenOrdersList(View view)

@@ -10,7 +10,13 @@
     <string name="past_transactions">Past Transactions</string>
     <string name="open_order_row_at">at</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_accounts">Account</string>
     <string name="user_transactions">Past Transactions</string>
     <string name="open_orders_empty">No Open Orders</string>
     <string name="user_transactions_empty">No Transactions so far</string>
+    <string name="client_id_label">Client ID:</string>
+    <string name="api_key_label">API Key:</string>
+    <string name="api_secret_label">API Secret:</string>
+    <string name="save">Save</string>
+    <string name="account_settings">Account Settings</string>
 </resources>

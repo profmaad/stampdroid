@@ -5,4 +5,9 @@
 	android:title="@string/action_refresh"
 	android:showAsAction="ifRoom"
 	/>
+
+  <item android:id="@+id/action_account_settings"
+	android:icon="@drawable/ic_action_accounts"
+	android:title="@string/action_accounts"
+	/>
 </menu>
