@@ -7,11 +7,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ImageButton;
 import android.view.View;
+import android.preference.PreferenceManager;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -60,54 +62,24 @@ public class AccountSettings extends Activity
 
 	public void load() throws Exception
 	{
-		KeyStore keystore = KeyStore.getInstance("AndroidKeyStore");
-		keystore.load(null);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		KeyStore.SecretKeyEntry client_id_entry = (KeyStore.SecretKeyEntry)keystore.getEntry("org.profmaad.stampdroid.client_id", null);
-		KeyStore.SecretKeyEntry api_key_entry = (KeyStore.SecretKeyEntry)keystore.getEntry("org.profmaad.stampdroid.api_key", null);
-		KeyStore.SecretKeyEntry api_secret_entry = (KeyStore.SecretKeyEntry)keystore.getEntry("org.profmaad.stampdroid.api_secret", null);
-
-		if(client_id_entry != null)
-		{
-			String client_id = new String(client_id_entry.getSecretKey().getEncoded(), "UTF-8");
-			client_id_edit.setText(client_id);
-		}
-		if(api_key_entry != null)
-		{
-			String api_key = new String(api_key_entry.getSecretKey().getEncoded(), "UTF-8");
-			api_key_edit.setText(api_key);
-		}
-		if(api_secret_entry != null)
-		{
-			String api_secret = new String(api_secret_entry.getSecretKey().getEncoded(), "UTF-8");
-			api_secret_edit.setText(api_secret);
-		}
+		client_id_edit.setText(preferences.getString("org.profmaad.stampdroid.client_id", ""));
+		api_key_edit.setText(preferences.getString("org.profmaad.stampdroid.api_key", ""));
+		api_secret_edit.setText(preferences.getString("org.profmaad.stampdroid.api_secret", ""));
 	}
 
 	public void save(View view)
 	{
-		String client_id = client_id_edit.getText().toString();
-		String api_key = api_key_edit.getText().toString();
-		String api_secret = api_secret_edit.getText().toString();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		try
-		{
-			KeyStore keystore = KeyStore.getInstance("AndroidKeyStore");
-			keystore.load(null);
+		preferences.edit()
+			.putString("org.profmaad.stampdroid.client_id", client_id_edit.getText().toString())
+			.putString("org.profmaad.stampdroid.api_key", api_key_edit.getText().toString())
+			.putString("org.profmaad.stampdroid.api_secret", api_secret_edit.getText().toString())
+			.commit();
 
-			keystore.setEntry("org.profmaad.stampdroid.client_id", new KeyStore.SecretKeyEntry(new SecretKeySpec(client_id.getBytes("UTF-8"), "BitStampAPI")), null);
-			keystore.setEntry("org.profmaad.stampdroid.api_key", new KeyStore.SecretKeyEntry(new SecretKeySpec(api_key.getBytes("UTF-8"), "BitStampAPI")), null);
-			keystore.setEntry("org.profmaad.stampdroid.api_secret", new KeyStore.SecretKeyEntry(new SecretKeySpec(api_secret.getBytes("UTF-8"), "BitStampAPI")), null);
-
-			keystore.store(null);
-		}
-		catch(Exception e)
-		{
-			Log.e(log_tag, "Failed to store keys: "+e.toString());
-			e.printStackTrace();
-		}
-
-		finishActivity(0);
+		finish();
 	}
 
 	public void scan(View view)
