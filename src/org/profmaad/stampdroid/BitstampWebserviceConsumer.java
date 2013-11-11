@@ -39,9 +39,15 @@ public class BitstampWebserviceConsumer
 
 	private String app_name;
 
+	private boolean bypass_cache;
+
 	final protected static char[] hex_chars = "0123456789ABCDEF".toCharArray();	
 
 	public BitstampWebserviceConsumer(Context context)
+	{
+		this(context, false);
+	}
+	public BitstampWebserviceConsumer(Context context, boolean bypass_cache)
 	{
 		api_base_uri = context.getString(R.string.api_base_uri);
 		if(!api_base_uri.endsWith("/"))
@@ -50,6 +56,7 @@ public class BitstampWebserviceConsumer
 		}
 
 		app_name = context.getString(R.string.app_name);
+		this.bypass_cache = bypass_cache;
 
 		loadAccountSettings(context);
 	}
