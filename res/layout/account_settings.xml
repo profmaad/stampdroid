@@ -8,6 +8,14 @@
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
     >
+
+  <TextView android:id="@+id/account_settings_help_label"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="16sp"
+	    android:gravity="left|center_vertical"
+	    />
+
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -25,6 +33,7 @@
 	      android:layout_height="wrap_content"
 	      android:layout_weight="1"
 	      android:textSize="20sp"
+	      android:numeric="integer"
 	      />
     <ImageButton android:id="@+id/account_settings_client_id_scan_button"
 		 android:layout_width="48dp"
@@ -81,6 +90,7 @@
 	      android:layout_height="wrap_content"
 	      android:layout_weight="1"
 	      android:textSize="20sp"
+	      android:password="true"
 	      />
     <ImageButton android:id="@+id/account_settings_api_secret_scan_button"
 		 android:layout_width="48dp"
@@ -92,11 +102,37 @@
 		 />
   </LinearLayout>
 
-  <Button android:id="@+id/account_settings_save"
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:layout_gravity="right"
-	  android:text="@string/save"
-	  android:onClick="save"
-	  />
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+    <Button android:id="@+id/account_settings_test"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:text="@string/test"
+	    android:onClick="test"
+	    />
+    <TextView android:id="@+id/account_settings_test_result"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_toRightOf="@id/account_settings_test"
+	      android:layout_toLeftOf="@+id/account_settings_save"
+	      android:layout_alignBottom="@id/account_settings_test"
+	      android:layout_alignTop="@id/account_settings_test"
+	      android:gravity="center"
+	      android:textSize="16sp"
+	      />
+    <Button android:id="@id/account_settings_save"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignBottom="@id/account_settings_test"
+	    android:text="@string/save"
+	    android:onClick="save"
+	    />
+  </RelativeLayout>
 </LinearLayout>

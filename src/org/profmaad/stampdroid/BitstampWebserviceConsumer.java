@@ -26,6 +26,8 @@ import org.json.JSONArray;
 
 import android.content.Context;
 import android.util.Log;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class BitstampWebserviceConsumer
 {
@@ -47,11 +49,24 @@ public class BitstampWebserviceConsumer
 			api_base_uri.concat("/");
 		}
 
-		api_key = context.getString(R.string.api_key);
-		api_secret = context.getString(R.string.api_secret);
-		client_id = context.getString(R.string.bitstamp_client_id);
-
 		app_name = context.getString(R.string.app_name);
+
+		loadAccountSettings(context);
+	}
+
+	private boolean loadAccountSettings(Context context)
+	{
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		client_id = preferences.getString("org.profmaad.stampdroid.client_id", "");
+		api_key = preferences.getString("org.profmaad.stampdroid.api_key", "");
+		api_secret = preferences.getString("org.profmaad.stampdroid.api_secret", "");
+
+		return !(client_id.isEmpty() || api_key.isEmpty() || api_secret.isEmpty());
+	}
+	public boolean isReady()
+	{
+		return !(client_id.isEmpty() || api_key.isEmpty() || api_secret.isEmpty());
 	}
 
 	public JSONObject ticker()

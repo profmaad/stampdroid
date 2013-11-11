@@ -18,6 +18,12 @@
     <string name="api_key_label">API Key:</string>
     <string name="api_secret_label">API Secret:</string>
     <string name="save">Save</string>
+    <string name="test">Test</string>
     <string name="account_settings">Account Settings</string>
     <string name="hidden">Hidden</string>
+    <string name="account_settings_first_start">Before you can use StampDroid, you need to input your API keys for your BitStamp account.
+    These can be found, once logged into BitStamp, at https://www.bitstamp.net/account/security/api/.
+    Use the buttons next to each text field to scan the information from a barcode.</string>
+    <string name="api_access_test_success">API access successful</string>
+    <string name="api_access_test_failure">API access failed</string>
 </resources>

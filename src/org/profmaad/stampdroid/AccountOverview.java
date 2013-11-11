@@ -65,8 +65,25 @@ public class AccountOverview extends Activity
 		open_orders_list = (ListView)findViewById(R.id.overview_open_orders_list);
 		past_transactions_list = (ListView)findViewById(R.id.overview_past_transactions_list);
 		
-		refresh();
+		BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(this);
+
+		if(bitstamp.isReady())
+		{
+			refresh();
+		}
+		else
+		{
+			openAccountSettings(getString(R.string.account_settings_first_start));
+		}
     }
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+
+		refresh();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -93,7 +110,12 @@ public class AccountOverview extends Activity
 
 	public void openAccountSettings()
 	{
+		openAccountSettings("");
+	}
+	public void openAccountSettings(String help_text)
+	{
 		Intent intent = new Intent(this, AccountSettings.class);
+		intent.putExtra("org.profmaad.stampdroid.account_settings_help", help_text);
 		startActivityForResult(intent, 0);
 	}
 
@@ -116,7 +138,7 @@ public class AccountOverview extends Activity
 			protected JSONObject doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
-                
+
 				return bitstamp.ticker();
 			}
             
