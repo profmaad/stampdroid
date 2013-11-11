@@ -98,7 +98,7 @@ public class AccountOverview extends Activity
 		switch(item.getItemId())
 		{
 		case R.id.action_refresh:
-			refresh();
+			refresh(true);
 			return true;
 		case R.id.action_account_settings:
 			openAccountSettings();
@@ -132,12 +132,18 @@ public class AccountOverview extends Activity
 
 	private void refresh()
 	{
+		refresh(false);
+	}
+	private void refresh(boolean bypass_cache)
+	{
+		final boolean bypass_cache_async = bypass_cache;
+
 		new AsyncTask<Context, Void, JSONObject>()
 		{
 			@Override
 			protected JSONObject doInBackground(Context... params)
 			{
-				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
 
 				return bitstamp.ticker();
 			}
@@ -154,7 +160,7 @@ public class AccountOverview extends Activity
 			@Override
 			protected JSONObject doInBackground(Context... params)
 			{
-				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
                 
 				return bitstamp.balance();
 			}
@@ -171,7 +177,7 @@ public class AccountOverview extends Activity
 			@Override
 			protected JSONArray doInBackground(Context... params)
 			{
-				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
                 
 				return bitstamp.openOrders();
 			}
@@ -188,7 +194,7 @@ public class AccountOverview extends Activity
 			@Override
 			protected JSONArray doInBackground(Context... params)
 			{
-				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
                 
 				return bitstamp.userTransactions(5);
 			}

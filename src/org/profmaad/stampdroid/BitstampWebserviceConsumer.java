@@ -37,7 +37,7 @@ public class BitstampWebserviceConsumer
 	private String api_secret;	
 	private String client_id;
 
-	private String app_name;
+	private String log_tag;
 
 	private boolean bypass_cache;
 
@@ -55,7 +55,7 @@ public class BitstampWebserviceConsumer
 			api_base_uri.concat("/");
 		}
 
-		app_name = context.getString(R.string.app_name);
+		log_tag = context.getString(R.string.app_name);
 		this.bypass_cache = bypass_cache;
 
 		loadAccountSettings(context);
@@ -87,40 +87,53 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(app_name, e.toString());
+			Log.e(log_tag, e.toString());
 		}
 
 		return new JSONObject();
 	}
 	public JSONObject balance()
 	{
+		if(BitstampWebserviceCache.getInstance().getBalance() != null && !bypass_cache)
+		{
+			return BitstampWebserviceCache.getInstance().getBalance();
+		}
+
 		try
 		{
 			String result_body = doRequest("balance", new HashMap<String, String>(), true);
 			JSONObject balance_object = (JSONObject)new JSONTokener(result_body).nextValue();
 
+			BitstampWebserviceCache.getInstance().setBalance(balance_object);
+
 			return balance_object;
 		}
 		catch(Exception e)
 		{
-			Log.e(app_name, e.toString());
+			Log.e(log_tag, e.toString());
 		}
 
 		return new JSONObject();
 	}
 	public JSONArray openOrders()
 	{
+		if(BitstampWebserviceCache.getInstance().getOpenOrders() != null && !bypass_cache)
+		{
+			return BitstampWebserviceCache.getInstance().getOpenOrders();
+		}
+
 		try
 		{
 			String result_body = doRequest("open_orders", new HashMap<String, String>(), true);
-			Log.i("StampDroid", "Got reply for open orders: "+result_body);
 			JSONArray open_orders_array = (JSONArray)new JSONTokener(result_body).nextValue();
+
+			BitstampWebserviceCache.getInstance().setOpenOrders(open_orders_array);
 
 			return open_orders_array;
 		}
 		catch(Exception e)
 		{
-			Log.e(app_name, e.toString());
+			Log.e(log_tag, e.toString());
 		}
 		return new JSONArray();
 	}
@@ -139,6 +152,11 @@ public class BitstampWebserviceConsumer
 	}
 	public JSONArray userTransactions(int offset, int limit, boolean sort_ascending)
 	{
+		if(BitstampWebserviceCache.getInstance().getUserTransactions(offset, limit, sort_ascending) != null && !bypass_cache)
+		{
+			return BitstampWebserviceCache.getInstance().getUserTransactions(offset, limit, sort_ascending);
+		}
+
 		HashMap<String, String> parameters = new HashMap<String, String>(3);
 		parameters.put("offset", String.valueOf(offset));
 		parameters.put("limit", String.valueOf(limit));
@@ -147,14 +165,15 @@ public class BitstampWebserviceConsumer
 		try
 		{
 			String result_body = doRequest("user_transactions", parameters, true);
-			Log.i("StampDroid", "Got reply for past_transactions: "+result_body);
 			JSONArray user_transactions_array = (JSONArray)new JSONTokener(result_body).nextValue();
+
+			BitstampWebserviceCache.getInstance().setUserTransactions(user_transactions_array, offset, limit, sort_ascending);
 
 			return user_transactions_array;
 		}
 		catch(Exception e)
 		{
-			Log.e(app_name, e.toString());
+			Log.e(log_tag, e.toString());
 		}
 		return new JSONArray();
 	}
@@ -290,7 +309,7 @@ public class BitstampWebserviceConsumer
 			}
 		}
 
-		Log.i(app_name, post_request_data_builder.toString());
+		Log.i(log_tag, post_request_data_builder.toString());
 
 		return post_request_data_builder.toString();
 	}

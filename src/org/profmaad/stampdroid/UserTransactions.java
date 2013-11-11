@@ -50,7 +50,7 @@ public class UserTransactions extends ListActivity
 		switch(item.getItemId())
 		{
 		case R.id.action_refresh:
-			refresh();
+			refresh(true);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -59,12 +59,18 @@ public class UserTransactions extends ListActivity
 
 	private void refresh()
 	{
+		refresh(false);
+	}
+	private void refresh(boolean bypass_cache)
+	{
+		final boolean bypass_cache_async = bypass_cache;
+
 		new AsyncTask<Context, Void, JSONArray>()
 		{
 			@Override
 			protected JSONArray doInBackground(Context... params)
 			{
-				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
                 
 				return bitstamp.userTransactions(1000); //HACK
 			}

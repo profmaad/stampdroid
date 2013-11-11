@@ -77,16 +77,12 @@ public class OpenOrdersArrayAdapter extends ArrayAdapter<JSONObject>
 			LayoutInflater layout_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);			
 			row_view = layout_inflater.inflate(R.layout.open_order_row_layout, parent, false);
 
-			Log.e(log_tag, "Created new row layout: "+row_view.toString());
-
 			view_holder = new ViewHolder();
 			view_holder.timestamp_label = (TextView)row_view.findViewById(R.id.open_order_row_timestamp);
 			view_holder.type_label = (TextView)row_view.findViewById(R.id.open_order_row_type);
 			view_holder.amount_label = (TextView)row_view.findViewById(R.id.open_order_row_amount);
 			view_holder.price_label = (TextView)row_view.findViewById(R.id.open_order_row_price);
 
-			Log.e(log_tag, "Created new view holder: "+view_holder.toString());
-			
 			row_view.setTag(view_holder);
 		}
 		else
@@ -98,11 +94,6 @@ public class OpenOrdersArrayAdapter extends ArrayAdapter<JSONObject>
 
 		try
 		{
-			Log.e(log_tag, "View holder: "+view_holder.toString());
-			Log.e(log_tag, "\t"+view_holder.timestamp_label.toString());
-			Log.e(log_tag, "\t"+view_holder.type_label.toString());
-			Log.e(log_tag, "\t"+view_holder.amount_label.toString());
-			Log.e(log_tag, "\t"+view_holder.price_label.toString());
 			view_holder.timestamp_label.setText(open_order.getString("datetime"));
 
 			view_holder.type_label.setText((open_order.getInt("type") == 1) ? "Sell" : "Buy");

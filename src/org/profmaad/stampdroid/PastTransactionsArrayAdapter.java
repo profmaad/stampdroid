@@ -99,13 +99,6 @@ public class PastTransactionsArrayAdapter extends ArrayAdapter<JSONObject>
 			view_holder.to_label = (TextView)row_view.findViewById(R.id.past_transaction_row_to);
 			view_holder.fee_label = (TextView)row_view.findViewById(R.id.past_transaction_row_fee);
 
-			Log.i(log_tag, "Timestamp label: "+view_holder.timestamp_label.toString());
-			Log.i(log_tag, "Type label: "+view_holder.type_label.toString());
-			Log.i(log_tag, "From label: "+view_holder.from_label.toString());
-			Log.i(log_tag, "Relation label: "+view_holder.relation_label.toString());
-			Log.i(log_tag, "To label: "+view_holder.to_label.toString());
-			Log.i(log_tag, "Fee label: "+view_holder.fee_label.toString());
-
 			if(original_colors == null)
 			{
 				original_colors = view_holder.type_label.getTextColors();
