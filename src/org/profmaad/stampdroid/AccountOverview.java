@@ -64,7 +64,7 @@ public class AccountOverview extends Activity
 
 		open_orders_list = (ListView)findViewById(R.id.overview_open_orders_list);
 		past_transactions_list = (ListView)findViewById(R.id.overview_past_transactions_list);
-		
+
 		BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(this);
 
 		if(bitstamp.isReady())
@@ -195,6 +195,17 @@ public class AccountOverview extends Activity
 			protected JSONArray doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
+
+				try
+				{
+					UserTransactionsHelper helper = new UserTransactionsHelper(params[0]);
+
+					helper.update();
+				}
+				catch(Exception e)
+				{
+					Log.e(log_tag, "Failed to update user transactions table: "+e.toString());
+				}
                 
 				return bitstamp.userTransactions(5);
 			}
