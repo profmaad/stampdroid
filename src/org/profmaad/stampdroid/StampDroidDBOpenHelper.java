@@ -16,14 +16,14 @@ public class StampDroidDBOpenHelper extends SQLiteOpenHelper
 
 	public void onCreate(SQLiteDatabase db)
 	{
-		db.execSQL("CREATE TABLE user_transactions (id INTEGER PRIMARY KEY NOT NULL, bitstamp_id INTEGER UNIQUE NOT NULL, order_id INTEGER, type INTEGER NOT NULL, usd_amount REAL, btc_amount REAL, fee_usd REAL, timestamp INTEGER NOT NULL, btc_usd_exchange_rate REAL);");
+		db.execSQL("CREATE TABLE user_transactions (_id INTEGER PRIMARY KEY NOT NULL, bitstamp_id INTEGER UNIQUE NOT NULL, order_id INTEGER, type INTEGER NOT NULL, usd_amount REAL, btc_amount REAL, fee_usd REAL, timestamp INTEGER NOT NULL, btc_usd_exchange_rate REAL);");
 	}
 
 	public void onUpgrade(SQLiteDatabase db, int old_version, int new_version)
 	{
 		if(old_version < 1)
 		{
-			db.execSQL("CREATE TABLE user_transactions (id INTEGER PRIMARY KEY NOT NULL, bitstamp_id INTEGER UNIQUE NOT NULL, order_id INTEGER, type INTEGER NOT NULL, usd_amount REAL, btc_amount REAL, fee_usd REAL, timestamp INTEGER NOT NULL, btc_usd_exchange_rate REAL);");
+			db.execSQL("CREATE TABLE user_transactions (_id INTEGER PRIMARY KEY NOT NULL, bitstamp_id INTEGER UNIQUE NOT NULL, order_id INTEGER, type INTEGER NOT NULL, usd_amount REAL, btc_amount REAL, fee_usd REAL, timestamp INTEGER NOT NULL, btc_usd_exchange_rate REAL);");
 		}
 	}
 }
