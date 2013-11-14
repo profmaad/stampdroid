@@ -13,10 +13,8 @@ import android.widget.ListView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-
-import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONException;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class UserTransactions extends ListActivity
 {
@@ -50,7 +48,7 @@ public class UserTransactions extends ListActivity
 		switch(item.getItemId())
 		{
 		case R.id.action_refresh:
-			refresh(true);
+			refresh();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -59,36 +57,39 @@ public class UserTransactions extends ListActivity
 
 	private void refresh()
 	{
-		refresh(false);
-	}
-	private void refresh(boolean bypass_cache)
-	{
-		final boolean bypass_cache_async = bypass_cache;
-
-		new AsyncTask<Context, Void, JSONArray>()
+		new AsyncTask<Context, Void, Cursor>()
 		{
 			@Override
-			protected JSONArray doInBackground(Context... params)
+			protected Cursor doInBackground(Context... params)
 			{
-				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
-                
-				return bitstamp.userTransactions(1000); //HACK
+				UserTransactionsHelper helper = new UserTransactionsHelper(params[0]);
+
+				try
+				{
+					helper.update();
+				}
+				catch(Exception e)
+				{
+					Log.e(log_tag, "Failed to update user transactions table: "+e.toString());
+				}
+
+				return helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC", null);
 			}
             
 			@Override
-			protected void onPostExecute(JSONArray transactions)
+			protected void onPostExecute(Cursor transactions_cursor)
 			{
-				updateTransactions(transactions);
+				updateTransactions(transactions_cursor);
 			}
 		}.execute(this);
 	}
 
-	private void updateTransactions(JSONArray transactions)
+	private void updateTransactions(Cursor transactions_cursor)
 	{
-		Log.i(log_tag, "Got new past transactions: "+transactions.toString());
+		Log.i(log_tag, "Updating transactions cursor: "+transactions_cursor.toString());
 
-		PastTransactionsArrayAdapter past_transactions_array_adapter = PastTransactionsArrayAdapter.create(this, transactions);
+		PastTransactionsCursorAdapter transactions_cursor_adapter = new PastTransactionsCursorAdapter(this, transactions_cursor);
 		
-		setListAdapter(past_transactions_array_adapter);
+		setListAdapter(transactions_cursor_adapter);
 	}
 }

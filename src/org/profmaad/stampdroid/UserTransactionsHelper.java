@@ -66,6 +66,15 @@ public class UserTransactionsHelper
 		}
 	}
 
+	public SQLiteDatabase getDatabase()
+	{
+		return db;
+	}
+	public String getTableName()
+	{
+		return TABLE_NAME;
+	}
+
 	private boolean insertTransactions(JSONArray new_transactions)
 	{
 		for(int i = 0; i < new_transactions.length(); i++)

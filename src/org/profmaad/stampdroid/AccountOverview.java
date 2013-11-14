@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -189,31 +191,29 @@ public class AccountOverview extends Activity
 			}
 		}.execute(this);
 		
-		new AsyncTask<Context, Void, JSONArray>()
+		new AsyncTask<Context, Void, Cursor>()
 		{
 			@Override
-			protected JSONArray doInBackground(Context... params)
+			protected Cursor doInBackground(Context... params)
 			{
-				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], bypass_cache_async);
+				UserTransactionsHelper helper = new UserTransactionsHelper(params[0]);
 
 				try
 				{
-					UserTransactionsHelper helper = new UserTransactionsHelper(params[0]);
-
 					helper.update();
 				}
 				catch(Exception e)
 				{
 					Log.e(log_tag, "Failed to update user transactions table: "+e.toString());
 				}
-                
-				return bitstamp.userTransactions(5);
+
+				return helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC", "5");
 			}
             
 			@Override
-			protected void onPostExecute(JSONArray past_transactions)
+			protected void onPostExecute(Cursor past_transactions_cursor)
 			{
-				updatePastTransactions(past_transactions);
+				updatePastTransactions(past_transactions_cursor);
 			}
 		}.execute(this);
 	}
@@ -279,12 +279,12 @@ public class AccountOverview extends Activity
 		
 		open_orders_list.setAdapter(open_orders_array_adapter);
 	}
-	private void updatePastTransactions(JSONArray past_transactions)
+	private void updatePastTransactions(Cursor past_transactions_cursor)
 	{
-		Log.i(log_tag, "Got new past transactions: "+past_transactions.toString());
+		Log.i(log_tag, "Updating past transactions cursor: "+past_transactions_cursor.toString());
 
-		PastTransactionsArrayAdapter past_transactions_array_adapter = PastTransactionsArrayAdapter.create(this, past_transactions);
+		PastTransactionsCursorAdapter past_transactions_cursor_adapter = new PastTransactionsCursorAdapter(this, past_transactions_cursor);
 		
-		past_transactions_list.setAdapter(past_transactions_array_adapter);
+		past_transactions_list.setAdapter(past_transactions_cursor_adapter);
 	}
 }
