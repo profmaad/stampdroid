@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="buy_sell_switch_text_appearance" parent="@android:style/TextAppearance.Holo">
+    <item name="android:textSize">40sp</item>
+  </style>
+</resources>

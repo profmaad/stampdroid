@@ -99,6 +99,9 @@ public class AccountOverview extends Activity
 	{
 		switch(item.getItemId())
 		{
+		case R.id.action_add_order:
+			startAddOrderActivity();
+			return true;
 		case R.id.action_refresh:
 			refresh(true);
 			return true;
@@ -118,6 +121,12 @@ public class AccountOverview extends Activity
 	{
 		Intent intent = new Intent(this, AccountSettings.class);
 		intent.putExtra("org.profmaad.stampdroid.account_settings_help", help_text);
+		startActivityForResult(intent, 0);
+	}
+
+	public void startAddOrderActivity()
+	{
+		Intent intent = new Intent(this, AddOrder.class);
 		startActivityForResult(intent, 0);
 	}
 
@@ -244,7 +253,7 @@ public class AccountOverview extends Activity
 		{
 			Log.e(log_tag, "Failed to update ticker: "+e.toString());
 
-			Toast.makeText(this, "Failed to update ticker", Toast.LENGTH_SHORT);
+			Toast.makeText(this, "Failed to update ticker", Toast.LENGTH_SHORT).show();
 		}
 	}
 	private void updateBalance(JSONObject balance)
@@ -267,7 +276,7 @@ public class AccountOverview extends Activity
 		{
 			Log.e(log_tag, "Failed to update account balance: "+e.toString());
 
-			Toast.makeText(this, "Failed to update account balance", Toast.LENGTH_SHORT);
+			Toast.makeText(this, "Failed to update account balance", Toast.LENGTH_SHORT).show();
 		}
 	}
 	

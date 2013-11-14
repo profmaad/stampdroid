@@ -39,7 +39,7 @@ public class UserTransactions extends ListActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();		
-		inflater.inflate(R.menu.account_overview_actions, menu); //TODO
+		inflater.inflate(R.menu.user_transactions_actions, menu);
 
 		return super.onCreateOptionsMenu(menu);
 	}

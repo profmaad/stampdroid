@@ -41,7 +41,7 @@ public class OpenOrders extends ListActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();		
-		inflater.inflate(R.menu.account_overview_actions, menu); //TODO
+		inflater.inflate(R.menu.open_orders_actions, menu);
 
 		return super.onCreateOptionsMenu(menu);
 	}

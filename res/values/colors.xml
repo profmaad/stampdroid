@@ -6,4 +6,6 @@
 
   <color name="success">#009F6B</color>
   <color name="failure">#C40233</color>
+
+  <color name="insufficient_funds">#C40233</color>
 </resources>

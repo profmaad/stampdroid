@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:useDefaultMargins="true"
+    android:columnCount="2"
+    >
+  <RadioGroup android:id="@+id/add_order_type"
+	  android:orientation="horizontal"
+	  android:layout_columnSpan="2"
+	  android:layout_gravity="center_horizontal|top"
+	  android:checkedButton="@+id/add_order_type_buy"
+	  >
+    <RadioButton android:id="@id/add_order_type_buy"
+		 android:layout_width="wrap_content"
+		 android:layout_height="wrap_content"
+		 android:layout_weight="1"
+		 android:paddingRight="4dp"
+		 android:text="@string/buy"
+		 android:textSize="40sp"
+		 />
+    <RadioButton android:id="@+id/add_order_type_sell"
+		 android:layout_width="wrap_content"
+		 android:layout_height="wrap_content"
+		 android:paddingLeft="4dp"
+		 android:text="@string/sell"
+		 android:textSize="40sp"
+		 />
+  </RadioGroup>
+
+  <TextView android:id="@+id/add_order_funds_label"
+	    android:layout_gravity="center|fill_horizontal"
+	    android:layout_columnSpan="2"
+	    android:gravity="center"
+	    android:textSize="32sp"
+	    />
+  
+  <TextView android:id="@+id/add_order_amount_label"
+	    android:text="@string/add_order_amount_label"
+	    android:gravity="left"
+	    android:layout_gravity="left"
+	    />
+  <EditText android:id="@+id/add_order_amount"
+	    android:gravity="right"
+	    android:layout_gravity="right|fill_horizontal"
+	    android:numeric="decimal"
+	    />
+
+  <TextView android:id="@+id/add_order_price_label"
+	    android:text="@string/add_order_price_label"
+	    android:gravity="left"
+	    android:layout_gravity="left"
+	    />
+  <EditText android:id="@+id/add_order_price"
+	    android:gravity="right"
+	    android:layout_gravity="right|fill_horizontal"
+	    android:numeric="decimal"
+	    />
+
+  <TextView android:id="@+id/add_order_fee_label"
+	    android:text="@string/add_order_fee_label"
+	    android:gravity="left"
+	    android:layout_gravity="left"
+	    />
+  <TextView android:id="@+id/add_order_fee"
+	    android:gravity="right"
+	    android:layout_gravity="right|fill_horizontal"
+	    android:numeric="decimal"
+	    />
+
+  <TextView android:id="@+id/add_order_total_label"
+	    android:text="@string/add_order_total_label"
+	    android:gravity="left"
+	    android:layout_gravity="left"
+	    />
+  <TextView android:id="@+id/add_order_total"
+	    android:gravity="right"
+	    android:layout_gravity="right|fill_horizontal"
+	    android:numeric="decimal"
+	    />
+
+  <Button android:id="@+id/add_order_button"
+	  android:layout_gravity="right"
+	  android:onClick="addOrder"
+	  android:layout_column="1"
+	  android:text="@string/add_order_button"
+	  />
+</GridLayout>
