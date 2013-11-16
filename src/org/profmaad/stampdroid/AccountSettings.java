@@ -22,6 +22,16 @@ import android.preference.PreferenceManager;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+// idea for secure API secret storage:
+// 1. generate X509 cert + priv key for user
+// 2. store X509 cert + priv key in AndroidKeyStore
+// 3. use priv key to encrypt API secrets
+// 4. store encrypted API secrets in shared preferences
+// 5. to access API secrets: retrieve priv key from AndroidKeyStore, retrieve encrypted API secrets from prefs, decrypt using key, discard key
+// security:
+// - priv key is encrypted with user device password
+// - API secrets are encrypted with priv key -> user device password is needed to access API secrets - WIN!
+
 public class AccountSettings extends Activity
 {
 	private final static String SCAN_INTENT_EXTRA = "org.profmaad.stampdroid.scan_type";
