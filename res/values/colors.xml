@@ -2,7 +2,9 @@
 <resources>
   <color name="sell">#C40233</color>
   <color name="buy">#009F6B</color>
-  <color name="reserved">#B22222</color>
+
+  <color name="funds_reserved">#C40233</color>
+  <color name="funds_available">#009F6B</color>
 
   <color name="success">#009F6B</color>
   <color name="failure">#C40233</color>

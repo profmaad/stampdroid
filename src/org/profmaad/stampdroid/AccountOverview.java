@@ -35,8 +35,10 @@ public class AccountOverview extends Activity
 
 	private TextView balance_usd_total_label;
 	private TextView balance_usd_reserved_label;
+	private TextView balance_usd_available_label;
 	private TextView balance_btc_total_label;
 	private TextView balance_btc_reserved_label;
+	private TextView balance_btc_available_label;
 
 	private ListView open_orders_list;
 	private ListView past_transactions_list;
@@ -61,8 +63,10 @@ public class AccountOverview extends Activity
 
 		balance_usd_total_label = (TextView)findViewById(R.id.balance_usd_total);
 		balance_usd_reserved_label = (TextView)findViewById(R.id.balance_usd_reserved);
+		balance_usd_available_label = (TextView)findViewById(R.id.balance_usd_available);
 		balance_btc_total_label = (TextView)findViewById(R.id.balance_btc_total);
 		balance_btc_reserved_label = (TextView)findViewById(R.id.balance_btc_reserved);
+		balance_btc_available_label = (TextView)findViewById(R.id.balance_btc_available);
 
 		open_orders_list = (ListView)findViewById(R.id.overview_open_orders_list);
 		past_transactions_list = (ListView)findViewById(R.id.overview_past_transactions_list);
@@ -262,15 +266,19 @@ public class AccountOverview extends Activity
 		{
 			double usd_total = balance.getDouble("usd_balance");
 			double usd_reserved = balance.getDouble("usd_reserved");
+			double usd_available = balance.getDouble("usd_available");
 
 			double btc_total = balance.getDouble("btc_balance");
 			double btc_reserved = balance.getDouble("btc_reserved");
+			double btc_available = balance.getDouble("btc_available");
 
 			balance_usd_total_label.setText(String.format("$ %.2f", usd_total));
 			balance_usd_reserved_label.setText(String.format("- $ %.2f reserved", usd_reserved));
+			balance_usd_available_label.setText(String.format("= $ %.2f available", usd_available));
 
-			balance_btc_total_label.setText(String.format("฿ %.2f", btc_total));
-			balance_btc_reserved_label.setText(String.format("- ฿ %.2f reserved", btc_reserved));
+			balance_btc_total_label.setText(String.format("฿ %.8f", btc_total));
+			balance_btc_reserved_label.setText(String.format("- ฿ %.8f reserved", btc_reserved));
+			balance_btc_available_label.setText(String.format("= ฿ %.8f available", btc_available));
 		}
 		catch(JSONException e)
 		{

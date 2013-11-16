@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:id="@+id/balance_layout"
+	      android:layout_width="match_parent"
+	      android:layout_height="wrap_content"
+	      android:paddingTop="4dp"
+	      android:paddingBottom="4dp"
+	      android:orientation="vertical"
+	      >
+  <LinearLayout android:id="@+id/balance_usd_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:orientation="vertical"
+		>
+    <TextView android:id="@+id/balance_usd_total"
+	      android:layout_width="match_parent"
+	      android:layout_height="wrap_content"
+	      android:gravity="right|center_vertical"
+	      android:textSize="40sp"
+	      />
+    <LinearLayout android:id="@+id/balance_usd_subtotal_layout"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:orientation="horizontal"
+		  >
+      <TextView android:id="@+id/balance_usd_reserved"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="0.5"
+		android:gravity="left|center_vertical"
+		android:textSize="16sp"
+		android:textColor="@color/funds_reserved"
+		/>
+      <TextView android:id="@+id/balance_usd_available"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="0.5"
+		android:gravity="right|center_vertical"
+		android:textSize="16sp"
+		android:textColor="@color/funds_available"
+		/>
+    </LinearLayout>
+  </LinearLayout>
+  <LinearLayout android:id="@+id/balance_btc_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:orientation="vertical"
+		>
+    <TextView android:id="@+id/balance_btc_total"
+	      android:layout_width="match_parent"
+	      android:layout_height="wrap_content"
+	      android:gravity="right|center_vertical"
+	      android:textSize="40sp"
+	      />
+    <LinearLayout android:id="@+id/balance_btc_subtotal_layout"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:orientation="horizontal"
+		  >
+      <TextView android:id="@+id/balance_btc_reserved"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="0.5"
+		android:gravity="left|center_vertical"
+		android:textSize="16sp"
+		android:textColor="@color/funds_reserved"
+		/>
+      <TextView android:id="@+id/balance_btc_available"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="0.5"
+		android:gravity="right|center_vertical"
+		android:textSize="16sp"
+		android:textColor="@color/funds_available"
+		/>
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>
