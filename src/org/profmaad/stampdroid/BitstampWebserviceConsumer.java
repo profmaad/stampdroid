@@ -178,6 +178,45 @@ public class BitstampWebserviceConsumer
 		return new JSONArray();
 	}
 
+	public JSONObject addBuyLimitOrder(double btc_amount, double usd_price)
+	{
+		HashMap<String, String> parameters = new HashMap<String, String>(3);
+		parameters.put("amount", String.valueOf(btc_amount));
+		parameters.put("price", String.valueOf(usd_price));
+
+		try
+		{
+			String result_body = doRequest("buy", parameters, true);
+			JSONObject order = (JSONObject)new JSONTokener(result_body).nextValue();
+
+			return order;
+		}
+		catch(Exception e)
+		{
+			Log.e(log_tag, e.toString());
+		}
+		return new JSONObject();
+	}
+	public JSONObject addSellLimitOrder(double btc_amount, double usd_price)
+	{
+		HashMap<String, String> parameters = new HashMap<String, String>(3);
+		parameters.put("amount", String.valueOf(btc_amount));
+		parameters.put("price", String.valueOf(usd_price));
+
+		try
+		{
+			String result_body = doRequest("sell", parameters, true);
+			JSONObject order = (JSONObject)new JSONTokener(result_body).nextValue();
+
+			return order;
+		}
+		catch(Exception e)
+		{
+			Log.e(log_tag, e.toString());
+		}
+		return new JSONObject();
+	}
+
 	private String doRequest(String api_resource, Map<String, String> parameters, boolean authenticated_request) throws Exception
 	{
 		StringBuilder api_resource_url_builder = new StringBuilder();

@@ -243,8 +243,94 @@ public class AddOrder extends Activity
 			
 	public void addOrder(View view)
 	{
-		Toast.makeText(this, "Order creation not yet implemented", Toast.LENGTH_SHORT).show();
+		double amount = 0.0;
+		double price = 0.0;
+		final int order_type = getOrderType();
+
+		try
+		{
+			amount = Double.parseDouble(amount_edit.getText().toString());
+			price = Double.parseDouble(price_edit.getText().toString());
+		}
+		catch(NumberFormatException e)
+		{
+			Log.w(log_tag, "Failed to parse order values: "+e.toString());
+			Toast.makeText(this, "Failed: invalid order values", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		final double amount_async = amount;
+		final double price_async = price;
+
+		new AsyncTask<Context, Void, JSONObject>()
+		{
+			@Override
+			protected JSONObject doInBackground(Context... params)
+			{
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], true);
+
+				JSONObject order = new JSONObject();
+				if(order_type == TYPE_BUY)
+				{
+					order = bitstamp.addBuyLimitOrder(amount_async, price_async);
+				}
+				else if(order_type == TYPE_SELL)
+				{
+					order = bitstamp.addSellLimitOrder(amount_async, price_async);
+				}
+				else
+				{
+					Log.w(log_tag, "Failed: invalid order type");
+					try
+					{
+						order = new JSONObject("{\"error\": \"invalid order type\"}");
+					}
+					catch(JSONException e)
+					{
+						Log.e(log_tag, "This is embarrasing: error condition in an error condition, because I've been unable to type a proper json object by hand");
+					}
+				}
+
+				Log.i(log_tag, "new order: "+order.toString());
+				return order;
+			}
+            
+			@Override
+			protected void onPostExecute(JSONObject order)
+			{
+				showOrderConfirmation(order);
+			}
+		}.execute(this);
+	}
+	private void showOrderConfirmation(JSONObject order)
+	{
+		String error_message = null;
+		long order_id = -1;
 		
-		finish();
+		try
+		{
+			if(!order.isNull("error"))
+			{
+				error_message = order.getString("error");
+			}
+			else
+			{
+				order_id = order.getLong("id");
+			}
+		}
+		catch(JSONException e)
+		{
+			error_message = "no order id returned";
+		}
+
+		if(error_message == null && order_id >= 0)
+		{
+			Toast.makeText(this, "Order created: "+String.valueOf(order_id), Toast.LENGTH_LONG).show();
+			finish();
+		}
+		else
+		{
+			Toast.makeText(this, "Order creation failed: "+error_message, Toast.LENGTH_LONG).show();
+		}
 	}
 }
