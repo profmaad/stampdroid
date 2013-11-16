@@ -1,8 +1,5 @@
 package org.profmaad.stampdroid;
 
-import java.security.KeyStore;
-import javax.crypto.spec.SecretKeySpec;
-
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -21,16 +18,6 @@ import android.preference.PreferenceManager;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-// idea for secure API secret storage:
-// 1. generate X509 cert + priv key for user
-// 2. store X509 cert + priv key in AndroidKeyStore
-// 3. use priv key to encrypt API secrets
-// 4. store encrypted API secrets in shared preferences
-// 5. to access API secrets: retrieve priv key from AndroidKeyStore, retrieve encrypted API secrets from prefs, decrypt using key, discard key
-// security:
-// - priv key is encrypted with user device password
-// - API secrets are encrypted with priv key -> user device password is needed to access API secrets - WIN!
 
 public class AccountSettings extends Activity
 {
@@ -88,22 +75,20 @@ public class AccountSettings extends Activity
 
 	public void load() throws Exception
 	{
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		AccountSettingsHelper helper = new AccountSettingsHelper(this);
 
-		client_id_edit.setText(preferences.getString("org.profmaad.stampdroid.client_id", ""));
-		api_key_edit.setText(preferences.getString("org.profmaad.stampdroid.api_key", ""));
-		api_secret_edit.setText(preferences.getString("org.profmaad.stampdroid.api_secret", ""));
+		client_id_edit.setText(helper.getClientID());
+		api_key_edit.setText(helper.getAPIKey());
+		api_secret_edit.setText(helper.getAPISecret());
 	}
 
 	public void save(View view)
 	{
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		AccountSettingsHelper helper = new AccountSettingsHelper(this);
 
-		preferences.edit()
-			.putString("org.profmaad.stampdroid.client_id", client_id_edit.getText().toString())
-			.putString("org.profmaad.stampdroid.api_key", api_key_edit.getText().toString())
-			.putString("org.profmaad.stampdroid.api_secret", api_secret_edit.getText().toString())
-			.commit();
+		helper.setClientID(client_id_edit.getText().toString());
+		helper.setAPIKey(api_key_edit.getText().toString());
+		helper.setAPISecret(api_secret_edit.getText().toString());
 
 		finish();
 	}

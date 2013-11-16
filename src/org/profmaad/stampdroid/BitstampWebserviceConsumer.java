@@ -63,17 +63,27 @@ public class BitstampWebserviceConsumer
 
 	private boolean loadAccountSettings(Context context)
 	{
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		AccountSettingsHelper helper = new AccountSettingsHelper(context);
 
-		client_id = preferences.getString("org.profmaad.stampdroid.client_id", "");
-		api_key = preferences.getString("org.profmaad.stampdroid.api_key", "");
-		api_secret = preferences.getString("org.profmaad.stampdroid.api_secret", "");
+		try
+		{
+			client_id = helper.getClientID();
+			api_key = helper.getAPIKey();
+			api_secret = helper.getAPISecret();
+		}
+		catch(Exception e)
+		{
+			Log.e(log_tag, "Failed to access API secrets: "+e.toString());
+			e.printStackTrace();
+			return false;
+		}
 
 		return !(client_id.isEmpty() || api_key.isEmpty() || api_secret.isEmpty());
 	}
 	public boolean isReady()
 	{
-		return !(client_id.isEmpty() || api_key.isEmpty() || api_secret.isEmpty());
+		return !(client_id == null || api_key == null || api_secret == null ||
+				 client_id.isEmpty() || api_key.isEmpty() || api_secret.isEmpty());
 	}
 
 	public JSONObject ticker()
