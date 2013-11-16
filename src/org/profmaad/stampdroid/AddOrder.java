@@ -45,6 +45,8 @@ public class AddOrder extends Activity
 
 	private Button add_order_button;
 
+	private TextView messages_label;
+
 	private double fee_rate;
 	private double usd_available;
 	private double btc_available;
@@ -71,6 +73,8 @@ public class AddOrder extends Activity
 		total_label = (TextView)findViewById(R.id.add_order_total);
 
 		add_order_button = (Button)findViewById(R.id.add_order_button);
+
+		messages_label = (TextView)findViewById(R.id.add_order_messages);
 
 		amount_original_colors = amount_edit.getTextColors();
 		total_original_colors = total_label.getTextColors();
@@ -187,6 +191,23 @@ public class AddOrder extends Activity
 
 		double total = amount*price;
 		double fee = total*fee_rate;
+		if(fee < 0.01)
+		{
+			fee = 0.01;
+		}
+
+		// min order volume: 1 USD
+		if(total < 1.0)
+		{
+			messages_label.setText("Minimum order volume is $ 1.");
+			add_order_button.setEnabled(false);
+		}
+		else
+		{
+			messages_label.setText("");
+			add_order_button.setEnabled(true);
+		}
+		
 		switch(getOrderType())
 		{
 		case TYPE_BUY:

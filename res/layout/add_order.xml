@@ -82,11 +82,17 @@
 	    android:layout_gravity="right|fill_horizontal"
 	    android:numeric="decimal"
 	    />
-
+  
   <Button android:id="@+id/add_order_button"
 	  android:layout_gravity="right"
 	  android:onClick="addOrder"
 	  android:layout_column="1"
 	  android:text="@string/add_order_button"
 	  />
+  <TextView android:id="@+id/add_order_messages"
+	    android:gravity="left"
+	    android:layout_gravity="left|top|fill_horizontal"
+	    android:layout_columnSpan="2"
+	    android:textColor="@color/failure"
+	    />
 </GridLayout>
