@@ -204,23 +204,27 @@ public class AccountOverview extends Activity
 			}
 		}.execute(this);
 		
+		UserTransactionsHelper helper = new UserTransactionsHelper(this);
+		Cursor user_transactions_current_cursor = helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC", "5");
+		updatePastTransactions(user_transactions_current_cursor);
+			
 		new AsyncTask<Context, Void, Cursor>()
 		{
 			@Override
 			protected Cursor doInBackground(Context... params)
 			{
-				UserTransactionsHelper helper = new UserTransactionsHelper(params[0]);
+				UserTransactionsHelper async_helper = new UserTransactionsHelper(params[0]);
 
 				try
 				{
-					helper.update();
+					async_helper.update();
 				}
 				catch(Exception e)
 				{
 					Log.e(log_tag, "Failed to update user transactions table: "+e.toString());
 				}
 
-				return helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC", "5");
+				return async_helper.getDatabase().query(async_helper.getTableName(), null, null, null, null, null, "timestamp DESC", "5");
 			}
             
 			@Override
@@ -296,7 +300,7 @@ public class AccountOverview extends Activity
 		
 		open_orders_list.setAdapter(open_orders_array_adapter);
 	}
-	private void updatePastTransactions(Cursor past_transactions_cursor)
+	private synchronized void updatePastTransactions(Cursor past_transactions_cursor)
 	{
 		Log.i(log_tag, "Updating past transactions cursor: "+past_transactions_cursor.toString());
 

@@ -43,7 +43,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:textSize="20sp"
-	    android:text="@string/past_transactions"
+	    android:text="@string/past_5_transactions"
 	    style="?android:attr/listSeparatorTextViewStyle"
 	    android:paddingTop="4dp"
 	    android:clickable="true"

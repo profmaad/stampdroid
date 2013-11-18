@@ -32,6 +32,10 @@ public class UserTransactions extends ListActivity
 		ActionBar action_bar = getActionBar();
 		action_bar.setDisplayHomeAsUpEnabled(true);
 
+		UserTransactionsHelper helper = new UserTransactionsHelper(this);
+		Cursor transactions_current_cursor = helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC");
+		updateTransactions(transactions_current_cursor);
+
 		refresh();
     }
 

@@ -82,7 +82,7 @@ public class AccountSettings extends Activity
 		api_secret_edit.setText(helper.getAPISecret());
 	}
 
-	public void save(View view)
+	public void save(View view) throws Exception
 	{
 		AccountSettingsHelper helper = new AccountSettingsHelper(this);
 
