@@ -10,9 +10,11 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.ActionMode;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -34,8 +36,54 @@ public class OpenOrders extends ListActivity
 		ActionBar action_bar = getActionBar();
 		action_bar.setDisplayHomeAsUpEnabled(true);
 
+		setupSelectionHandler();
+
 		refresh();
     }
+
+	private void setupSelectionHandler()
+	{
+		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+		getListView().setMultiChoiceModeListener(new MultiChoiceModeListener()
+		{
+			@Override
+			public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked)
+			{
+				// TODO
+			}
+
+			@Override
+			public boolean onCreateActionMode(ActionMode mode, Menu menu)
+			{
+				MenuInflater inflater = mode.getMenuInflater();
+				//inflater.inflate(R.menu.open_orders_context, menu);
+				return true;
+			}
+
+			@Override
+			public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+			{
+				switch(item.getItemId())
+				{
+				default:
+					return false;
+				}
+			}
+
+			@Override
+			public void onDestroyActionMode(ActionMode mode)
+			{
+				// TODO
+			}
+
+			@Override
+			public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+			{
+				return false;
+			}
+		});
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
