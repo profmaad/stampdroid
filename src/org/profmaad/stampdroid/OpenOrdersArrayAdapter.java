@@ -109,4 +109,30 @@ public class OpenOrdersArrayAdapter extends ArrayAdapter<JSONObject>
 
 		return row_view;
 	}
+
+	@Override
+	public boolean hasStableIds()
+	{
+		// ids are order ids as returned from the Bitstamp API
+		return true;
+	}
+	@Override
+	public long getItemId(int position)
+	{
+		JSONObject open_order = open_orders.get(position);
+
+		try
+		{
+			if(open_order != null && !open_order.isNull("id"))
+			{
+				return open_order.getLong("id");
+			}
+		}
+		catch(JSONException e)
+		{
+			Log.e(log_tag, "Failed to get ID from open order '"+open_order.toString()+"': "+e.toString());
+		}
+
+		return -1;
+	}
 }

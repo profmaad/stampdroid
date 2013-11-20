@@ -39,10 +39,10 @@
         </activity>
         <activity android:name="AddOrder"
                   android:label="@string/add_order"
-		  android:parentActivityName="AccountOverview"
+		  android:parentActivityName="OpenOrders"
 		  >
 	  <meta-data android:name="android.support.PARENT_ACTIVITY"
-		     android:value="AccountOverview"
+		     android:value="OpenOrders"
 		     />
         </activity>
     </application>

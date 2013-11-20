@@ -20,12 +20,15 @@ import android.text.TextWatcher;
 import android.text.Editable;
 
 import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.json.JSONException;
 
 public class AddOrder extends Activity
 {
 	private static final int TYPE_BUY = 0;
 	private static final int TYPE_SELL = 1;
+
+	private static final String EXTRA_OPEN_ORDER_JSON = "org.profmaad.stampdroid.EXTRA_OPEN_ORDER_JSON";
 
 	private int insufficient_funds_colour;
 	private ColorStateList total_original_colors;
@@ -79,6 +82,11 @@ public class AddOrder extends Activity
 		amount_original_colors = amount_edit.getTextColors();
 		total_original_colors = total_label.getTextColors();
 
+		if(getIntent().hasExtra(EXTRA_OPEN_ORDER_JSON))
+		{
+			setupEditOrder(getIntent().getStringExtra(EXTRA_OPEN_ORDER_JSON));
+		}
+		
 		amount_edit.addTextChangedListener(new TextWatcher()
 		{
 			public void afterTextChanged(Editable s)
@@ -122,6 +130,32 @@ public class AddOrder extends Activity
 		}
 
 		return -1;			
+	}
+
+	private void setupEditOrder(String open_order_json)
+	{
+		try
+		{
+			JSONObject open_order = (JSONObject)new JSONTokener(open_order_json).nextValue();
+
+			switch(open_order.getInt("type"))
+			{
+			case TYPE_BUY:
+				order_type_radiogroup.check(R.id.add_order_type_buy);
+				break;
+			case TYPE_SELL:
+				order_type_radiogroup.check(R.id.add_order_type_sell);
+				break;
+			}
+
+			amount_edit.setText(String.valueOf(open_order.getDouble("amount")));
+			price_edit.setText(String.valueOf(open_order.getDouble("price")));
+		}
+		catch(JSONException e)
+		{
+			Log.w(log_tag, "Failed to parse given order to edit '"+open_order_json+"': "+e.toString());
+			Toast.makeText(this, "Failed to parse order for editing", Toast.LENGTH_LONG).show();
+		}
 	}
 
 	private void refreshBalance()

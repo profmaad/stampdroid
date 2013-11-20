@@ -12,6 +12,9 @@
     <string name="open_order_row_at">at</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_accounts">Account</string>
+    <string name="action_add_order">Add order</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_cancel_order">Cancel order(s)</string>
     <string name="user_transactions">Past Transactions</string>
     <string name="open_orders_empty">No Open Orders</string>
     <string name="user_transactions_empty">No Transactions so far</string>
@@ -21,7 +24,6 @@
     <string name="save">Save</string>
     <string name="test">Test</string>
     <string name="account_settings">Account Settings</string>
-    <string name="action_add_order">Add order</string>
     <string name="hidden">Hidden</string>
     <string name="account_settings_first_start">Before you can use StampDroid, you need to input your API keys for your BitStamp account.
     These can be found, once logged into BitStamp, at https://www.bitstamp.net/account/security/api/.
