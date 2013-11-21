@@ -1,5 +1,7 @@
 package org.profmaad.stampdroid;
 
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ActionBar;
@@ -8,6 +10,7 @@ import android.os.AsyncTask;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
@@ -53,7 +56,7 @@ public class OpenOrders extends ListActivity
 			@Override
 			public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked)
 			{
-				mode.setTitle(String.format("%i selected", getListView().getCheckedItemCount()));
+				mode.setTitle(String.format("%d selected", getListView().getCheckedItemCount()));
 
 				mode.getMenu().findItem(R.id.action_edit_order).setVisible(getListView().getCheckedItemCount() == 1);
 			}
@@ -75,13 +78,16 @@ public class OpenOrders extends ListActivity
 			@Override
 			public boolean onActionItemClicked(ActionMode mode, MenuItem item)
 			{
+				Log.i(log_tag, "CAB ITEM CLICKED: "+item.getItemId());
 				switch(item.getItemId())
 				{
 				case R.id.action_edit_order:
 					startEditOrderActivity();
+					mode.finish();
 					return true;
 				case R.id.action_cancel_order:
 					cancelOrders(getListView().getCheckedItemIds());
+					mode.finish();
 					return true;
 				default:
 					return false;
@@ -109,7 +115,7 @@ public class OpenOrders extends ListActivity
 		switch(item.getItemId())
 		{
 		case R.id.action_add_order:
-			startAddOrderActivity();
+			startAddOrderActivity();			
 			return true;
 		case R.id.action_refresh:
 			refresh(true);
@@ -121,6 +127,7 @@ public class OpenOrders extends ListActivity
 
 	private void cancelOrders(long ids[])
 	{
+		Log.i(log_tag, "Canceling orders: "+Arrays.toString(ids));
 	}
 
 	public void startAddOrderActivity()
@@ -130,14 +137,18 @@ public class OpenOrders extends ListActivity
 	}
 	public void startEditOrderActivity()
 	{
-		if(getListView().getCheckedItemPosition() == ListView.INVALID_POSITION)
+		SparseBooleanArray checked_items = getListView().getCheckedItemPositions();
+		int first_selected_item_position = (checked_items == null ? -1 : checked_items.indexOfValue(true));
+		
+		if(first_selected_item_position < 0)
 		{
+			Log.i(log_tag, "NO VALID ITEM SELECTED");
 			return;
 		}
 		
 		Intent intent = new Intent(this, AddOrder.class);
 
-		JSONObject open_order = (JSONObject)(getListAdapter().getItem(getListView().getCheckedItemPosition()));
+		JSONObject open_order = (JSONObject)(getListAdapter().getItem(first_selected_item_position));
 
 		intent.putExtra(EXTRA_OPEN_ORDER_JSON, open_order.toString());
 		

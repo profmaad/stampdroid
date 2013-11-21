@@ -117,6 +117,7 @@ public class AddOrder extends Activity
 		});
 
 		refreshBalance();
+		refreshValues();
     }
 
 	private int getOrderType()
