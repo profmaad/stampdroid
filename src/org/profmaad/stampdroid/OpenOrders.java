@@ -128,6 +128,64 @@ public class OpenOrders extends ListActivity
 	private void cancelOrders(long ids[])
 	{
 		Log.i(log_tag, "Canceling orders: "+Arrays.toString(ids));
+
+		final long async_ids[] = ids;
+
+		new AsyncTask<Context, Void, JSONObject>()
+		{
+			@Override
+			protected JSONObject doInBackground(Context... params)
+			{
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], true);
+
+				JSONObject result = null;
+				for(long order_id : async_ids)
+				{
+					result = bitstamp.cancelOrder(order_id);
+					try
+					{
+						if(result.isNull("success") || result.getInt("success") != 1)
+						{
+							// we stop after the first failed cancelation
+							break;
+						}
+					}
+					catch(JSONException e)
+					{
+						break;
+					}
+				}
+				
+				return result;
+			}
+            
+			@Override
+			protected void onPostExecute(JSONObject result)
+			{
+				displayCancelOrderResult(result);
+			}
+		}.execute(this);
+	}
+	private void displayCancelOrderResult(JSONObject result)
+	{
+		try
+		{
+			if(!result.isNull("success") && result.getInt("success") == 1)
+			{
+				Toast.makeText(this, "Orders canceled successfully", Toast.LENGTH_LONG).show();
+			}
+			else
+			{
+				Toast.makeText(this, "Failed to cancel some orders: "+result.getString("error"), Toast.LENGTH_LONG).show();
+			}
+		}
+		catch(JSONException e)
+		{
+			Log.e(log_tag, "Invalid reply from order cancelation: "+e.toString());
+			Toast.makeText(this, "Failed to cancel some orders: "+e.toString(), Toast.LENGTH_LONG).show();			
+		}
+
+		refresh(true);
 	}
 
 	public void startAddOrderActivity()
@@ -138,7 +196,19 @@ public class OpenOrders extends ListActivity
 	public void startEditOrderActivity()
 	{
 		SparseBooleanArray checked_items = getListView().getCheckedItemPositions();
-		int first_selected_item_position = (checked_items == null ? -1 : checked_items.indexOfValue(true));
+		Log.i(log_tag, "SELECTED ITEMS: "+checked_items.toString());
+		Log.i(log_tag, "SELECTED ITEMS SIZE: "+String.valueOf(checked_items.size()));
+		int first_selected_item_position = -1;
+
+		for(int i = 0; i < checked_items.size(); i++)
+		{
+			Log.i(log_tag, "SELECTED ITEM AT "+String.valueOf(checked_items.keyAt(i))+": "+String.valueOf(checked_items.valueAt(i)));
+			if(checked_items.valueAt(i))
+			{
+				first_selected_item_position = checked_items.keyAt(i);
+				break;
+			}
+		}
 		
 		if(first_selected_item_position < 0)
 		{

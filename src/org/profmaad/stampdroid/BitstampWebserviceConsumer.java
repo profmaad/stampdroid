@@ -226,6 +226,45 @@ public class BitstampWebserviceConsumer
 		}
 		return new JSONObject();
 	}
+	public JSONObject cancelOrder(long order_id)
+	{
+		HashMap<String, String> parameters = new HashMap<String, String>(3);
+		parameters.put("id", String.valueOf(order_id));
+
+		JSONObject invalid_reply_error_object = null;
+
+		try
+		{
+			invalid_reply_error_object = new JSONObject("{\"error\": \"invalid reply\"}");
+			
+			String result_body = doRequest("cancel_order", parameters, true);
+			Log.i(log_tag, "CANCEL ORDER RAW RESULT: "+result_body);
+
+			JSONTokener tokener = new JSONTokener(result_body);
+			Object result_obj = tokener.nextValue();
+
+			JSONObject result = null;
+			if(result_obj instanceof JSONObject)
+			{
+				result = (JSONObject)result_obj;
+			}
+			else if(result_obj instanceof Boolean)
+			{
+				result = new JSONObject("{\"success\":"+((Boolean)result_obj == true ? "1" : "0")+"}");
+			}
+			else
+			{
+				result = new JSONObject("{\"error\": \"invalid reply\"}");
+			}
+
+			return result;
+		}
+		catch(Exception e)
+		{
+			Log.e(log_tag, e.toString());
+		}
+		return invalid_reply_error_object;
+	}
 
 	private String doRequest(String api_resource, Map<String, String> parameters, boolean authenticated_request) throws Exception
 	{
@@ -245,6 +284,7 @@ public class BitstampWebserviceConsumer
 
 		URL api_resource_url = new URL(api_resource_url_builder.toString());
 
+		long time_start = System.currentTimeMillis();
 		HttpURLConnection connection = (HttpURLConnection)api_resource_url.openConnection();
 		if(authenticated_request)
 		{
@@ -263,6 +303,8 @@ public class BitstampWebserviceConsumer
 			out.close();
 		}
 
+		Log.i(log_tag, "API REQUEST: "+api_resource_url.toString());
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String line = new String();
 		StringBuilder response_body_builder = new StringBuilder();
@@ -273,6 +315,8 @@ public class BitstampWebserviceConsumer
 		in.close();
 
 		connection.disconnect();
+		long time_end = System.currentTimeMillis();
+		Log.i(log_tag, "API REQUEST TOOK "+String.valueOf(time_end-time_start)+" milliseconds");
 
 		return response_body_builder.toString();
 	}

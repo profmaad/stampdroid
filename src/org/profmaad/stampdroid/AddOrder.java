@@ -36,6 +36,11 @@ public class AddOrder extends Activity
 	
 	private String log_tag;
 
+	private boolean is_edit;
+	private long edit_order_id;
+	private double edit_usd_total;
+	private double edit_btc_total;
+
 	private RadioGroup order_type_radiogroup;
 
 	private TextView funds_label;
@@ -85,6 +90,11 @@ public class AddOrder extends Activity
 		if(getIntent().hasExtra(EXTRA_OPEN_ORDER_JSON))
 		{
 			setupEditOrder(getIntent().getStringExtra(EXTRA_OPEN_ORDER_JSON));
+		}
+
+		if(is_edit)
+		{
+			setTitle(getString(R.string.edit_order));
 		}
 		
 		amount_edit.addTextChangedListener(new TextWatcher()
@@ -149,8 +159,18 @@ public class AddOrder extends Activity
 				break;
 			}
 
-			amount_edit.setText(String.valueOf(open_order.getDouble("amount")));
-			price_edit.setText(String.valueOf(open_order.getDouble("price")));
+			double amount = open_order.getDouble("amount");
+			double price = open_order.getDouble("price");
+			
+			amount_edit.setText(String.valueOf(amount));
+			price_edit.setText(String.valueOf(price));
+
+			edit_usd_total = amount*price;
+			edit_btc_total = amount;
+
+			edit_order_id = open_order.getLong("id");
+
+			is_edit = true;
 		}
 		catch(JSONException e)
 		{
@@ -185,6 +205,15 @@ public class AddOrder extends Activity
 			usd_available = balance.getDouble("usd_available");
 			btc_available = balance.getDouble("btc_available");
 
+			if(is_edit && getOrderType() == TYPE_BUY)
+			{
+				usd_available += edit_usd_total;
+			}
+			else if(is_edit && getOrderType() == TYPE_SELL)
+			{
+				btc_available += edit_btc_total;
+			}
+
 			fee_rate = balance.getDouble("fee")/100.0;
 		}
 		catch(JSONException e)
@@ -195,6 +224,7 @@ public class AddOrder extends Activity
 		}
 
 		updateFundsLabel();
+		refreshValues();
 	}
 	private void updateFundsLabel()
 	{
@@ -296,6 +326,8 @@ public class AddOrder extends Activity
 
 		final double amount_async = amount;
 		final double price_async = price;
+		final boolean is_edit_async = is_edit;
+		final long edit_order_id_async = edit_order_id;
 
 		new AsyncTask<Context, Void, JSONObject>()
 		{
@@ -303,6 +335,24 @@ public class AddOrder extends Activity
 			protected JSONObject doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], true);
+				
+				if(is_edit_async)
+				{
+					JSONObject cancel_result = bitstamp.cancelOrder(edit_order_id_async);
+					try
+					{
+						if(cancel_result.isNull("success") || cancel_result.getInt("success") != 1)
+						{
+							Log.e(log_tag, "Failed to cancel open order for edit, not creating new order.");
+							return cancel_result;
+						}
+					}
+					catch(JSONException e)
+					{
+						Log.e(log_tag, "Failed to parse result from order cancelation, aborting.");
+						return cancel_result;
+					}						
+				}
 
 				JSONObject order = new JSONObject();
 				if(order_type == TYPE_BUY)

@@ -33,6 +33,7 @@
     <string name="buy">Buy</string>
     <string name="sell">Sell</string>
     <string name="add_order">Add order</string>
+    <string name="edit_order">Edit order</string>
     <string name="add_order_price_label">Price ($):</string>
     <string name="add_order_amount_label">Amount (฿):</string>
     <string name="add_order_fee_label">Fee (Estimate):</string>
