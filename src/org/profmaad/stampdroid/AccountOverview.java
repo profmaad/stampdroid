@@ -88,7 +88,22 @@ public class AccountOverview extends Activity
 	{
 		super.onResume();
 
-		refresh();
+		new AsyncTask<Context, Void, JSONObject>()
+		{
+			@Override
+			protected JSONObject doInBackground(Context... params)
+			{
+				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], true);
+
+				return bitstamp.ticker();
+			}
+            
+			@Override
+			protected void onPostExecute(JSONObject ticker)
+			{
+				updateTicker(ticker);
+			}
+		}.execute(this);
 	}
 
 	@Override
