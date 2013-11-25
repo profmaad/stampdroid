@@ -68,7 +68,7 @@ public class AccountSettings extends Activity
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, "Failed to load keys: "+e.toString());
+			Log.e(log_tag, "Failed to load keys", e);
 			e.printStackTrace();
 		}
     }

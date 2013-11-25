@@ -181,7 +181,7 @@ public class OpenOrders extends ListActivity
 		}
 		catch(JSONException e)
 		{
-			Log.e(log_tag, "Invalid reply from order cancelation: "+e.toString());
+			Log.e(log_tag, "Invalid reply from order cancelation", e);
 			Toast.makeText(this, "Failed to cancel some orders: "+e.toString(), Toast.LENGTH_LONG).show();			
 		}
 

@@ -45,7 +45,7 @@ public class OpenOrdersArrayAdapter extends ArrayAdapter<JSONObject>
 			}
 			catch(JSONException e)
 			{
-				Log.e(context.getResources().getString(R.string.app_name), "Failed to get open order "+String.valueOf(i)+" from JSONArray: "+e.toString());
+				Log.e(context.getResources().getString(R.string.app_name), "Failed to get open order "+String.valueOf(i)+" from JSONArray", e);
 			}
 		}
 
@@ -104,7 +104,7 @@ public class OpenOrdersArrayAdapter extends ArrayAdapter<JSONObject>
 		}
 		catch(JSONException e)
 		{
-			Log.e(log_tag, "Failed to parse open order '"+open_order.toString()+"': "+e.toString());
+			Log.e(log_tag, "Failed to parse open order '"+open_order.toString()+"'", e);
 		}
 
 		return row_view;
@@ -130,7 +130,7 @@ public class OpenOrdersArrayAdapter extends ArrayAdapter<JSONObject>
 		}
 		catch(JSONException e)
 		{
-			Log.e(log_tag, "Failed to get ID from open order '"+open_order.toString()+"': "+e.toString());
+			Log.e(log_tag, "Failed to get ID from open order '"+open_order.toString()+"'", e);
 		}
 
 		return -1;

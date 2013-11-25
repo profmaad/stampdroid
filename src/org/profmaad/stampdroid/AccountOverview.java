@@ -103,7 +103,7 @@ public class AccountOverview extends Activity
 			{
 				updateTicker(ticker);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class AccountOverview extends Activity
 			{
 				updateTicker(ticker);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 		
 		new AsyncTask<Context, Void, JSONObject>()
 		{
@@ -200,7 +200,7 @@ public class AccountOverview extends Activity
 			{
 				updateBalance(balance);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 		
 		new AsyncTask<Context, Void, JSONArray>()
 		{
@@ -217,7 +217,7 @@ public class AccountOverview extends Activity
 			{
 				updateOpenOrders(open_orders);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 		
 		UserTransactionsHelper helper = new UserTransactionsHelper(this);
 		Cursor user_transactions_current_cursor = helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC", "5");
@@ -236,7 +236,7 @@ public class AccountOverview extends Activity
 				}
 				catch(Exception e)
 				{
-					Log.e(log_tag, "Failed to update user transactions table: "+e.toString());
+					Log.e(log_tag, "Failed to update user transactions table", e);
 				}
 
 				return async_helper.getDatabase().query(async_helper.getTableName(), null, null, null, null, null, "timestamp DESC", "5");
@@ -247,7 +247,7 @@ public class AccountOverview extends Activity
 			{
 				updatePastTransactions(past_transactions_cursor);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 
 	private void updateTicker(JSONObject ticker)
@@ -274,7 +274,7 @@ public class AccountOverview extends Activity
 		}
 		catch(JSONException e)
 		{
-			Log.e(log_tag, "Failed to update ticker: "+e.toString());
+			Log.e(log_tag, "Failed to update ticker", e);
 
 			Toast.makeText(this, "Failed to update ticker", Toast.LENGTH_SHORT).show();
 		}
@@ -301,7 +301,7 @@ public class AccountOverview extends Activity
 		}
 		catch(JSONException e)
 		{
-			Log.e(log_tag, "Failed to update account balance: "+e.toString());
+			Log.e(log_tag, "Failed to update account balance", e);
 
 			Toast.makeText(this, "Failed to update account balance", Toast.LENGTH_SHORT).show();
 		}

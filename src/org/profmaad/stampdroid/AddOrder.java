@@ -174,7 +174,7 @@ public class AddOrder extends Activity
 		}
 		catch(JSONException e)
 		{
-			Log.w(log_tag, "Failed to parse given order to edit '"+open_order_json+"': "+e.toString());
+			Log.w(log_tag, "Failed to parse given order to edit '"+open_order_json+"'", e);
 			Toast.makeText(this, "Failed to parse order for editing", Toast.LENGTH_LONG).show();
 		}
 	}
@@ -218,7 +218,7 @@ public class AddOrder extends Activity
 		}
 		catch(JSONException e)
 		{
-			Log.e(log_tag, "Failed to update balance: "+e.toString());
+			Log.e(log_tag, "Failed to update balance", e);
 			Toast.makeText(this, "Failed to retrieve balance", Toast.LENGTH_LONG).show();
 			finish();
 		}
@@ -251,7 +251,7 @@ public class AddOrder extends Activity
 		}
 		catch(NumberFormatException e)
 		{
-			Log.w(log_tag, "Failed to parse order values: "+e.toString());
+			Log.w(log_tag, "Failed to parse order values", e);
 		}
 
 		double total = amount*price;
@@ -319,7 +319,7 @@ public class AddOrder extends Activity
 		}
 		catch(NumberFormatException e)
 		{
-			Log.w(log_tag, "Failed to parse order values: "+e.toString());
+			Log.w(log_tag, "Failed to parse order values", e);
 			Toast.makeText(this, "Failed: invalid order values", Toast.LENGTH_LONG).show();
 			return;
 		}

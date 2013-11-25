@@ -73,7 +73,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, "Failed to access API secrets: "+e.toString());
+			Log.e(log_tag, "Failed to access API secrets", e);
 			e.printStackTrace();
 			return false;
 		}
@@ -97,7 +97,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, e.toString());
+			Log.e(log_tag, "API call to 'ticker' failed", e);
 		}
 
 		return new JSONObject();
@@ -120,7 +120,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, e.toString());
+			Log.e(log_tag, "API call to 'balance' failed", e);
 		}
 
 		return new JSONObject();
@@ -143,7 +143,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, e.toString());
+			Log.e(log_tag, "API call to 'open_orders' failed", e);
 		}
 		return new JSONArray();
 	}
@@ -183,7 +183,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, e.toString());
+			Log.e(log_tag, "API call to 'user_transactions' failed", e);
 		}
 		return new JSONArray();
 	}
@@ -203,7 +203,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, e.toString());
+			Log.e(log_tag, "API call to 'buy' failed", e);
 		}
 		return new JSONObject();
 	}
@@ -222,7 +222,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, e.toString());
+			Log.e(log_tag, "API call to 'sell' failed", e);
 		}
 		return new JSONObject();
 	}
@@ -261,7 +261,7 @@ public class BitstampWebserviceConsumer
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, e.toString());
+			Log.e(log_tag, "API call to 'cancel_order' failed", e);
 		}
 		return invalid_reply_error_object;
 	}
@@ -318,6 +318,8 @@ public class BitstampWebserviceConsumer
 		long time_end = System.currentTimeMillis();
 		Log.i(log_tag, "API REQUEST TOOK "+String.valueOf(time_end-time_start)+" milliseconds");
 
+		Log.i(log_tag, "API RESULT: "+response_body_builder.toString());
+		
 		return response_body_builder.toString();
 	}
 
@@ -336,15 +338,16 @@ public class BitstampWebserviceConsumer
 		}
 		catch(NoSuchAlgorithmException e)
 		{
-			//TODO
+			Log.e(log_tag, "Failed to create API call signature because HMAC-SHA256 isn't available", e);
 		}
 		catch(IllegalArgumentException e)
 		{
+			Log.e(log_tag, "Failed to create API call signature", e);
 			//TODO
 		}
 		catch(InvalidKeyException e)
 		{
-			//TODO
+			Log.e(log_tag, "Failed to create API call signature", e);
 		}
 		
 		return new String(); //HACK
@@ -393,7 +396,7 @@ public class BitstampWebserviceConsumer
 			}
 			catch(UnsupportedEncodingException e)
 			{
-				//TODO
+				Log.e(log_tag, "Failed to construct POST request data for API call", e);
 			}
 
 			if(keys_iterator.hasNext())

@@ -49,7 +49,7 @@ public class AccountSettingsHelper
 		}
 		catch(Exception e)
 		{
-			Log.e(log_tag, "Failed to access key from keystore: "+e.toString());
+			Log.e(log_tag, "Failed to access key from keystore", e);
 			e.printStackTrace();
 		}
 	}

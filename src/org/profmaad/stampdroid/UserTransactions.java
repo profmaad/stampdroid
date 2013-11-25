@@ -74,7 +74,7 @@ public class UserTransactions extends ListActivity
 				}
 				catch(Exception e)
 				{
-					Log.e(log_tag, "Failed to update user transactions table: "+e.toString());
+					Log.e(log_tag, "Failed to update user transactions table", e);
 				}
 
 				return helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC", null);

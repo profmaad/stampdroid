@@ -86,7 +86,7 @@ public class UserTransactionsHelper
 			}
 			catch(JSONException e)
 			{
-				Log.w(log_tag, "Got invalid transaction at position "+String.valueOf(i)+": "+e.toString());
+				Log.w(log_tag, "Got invalid transaction at position "+String.valueOf(i)+"", e);
 				continue;
 			}
 
@@ -119,7 +119,7 @@ public class UserTransactionsHelper
 			}
 			catch(JSONException e)
 			{
-				Log.w(log_tag, "Failed to get values from new transaction: "+e.toString());
+				Log.w(log_tag, "Failed to get values from new transaction", e);
 			}
 
 			try
@@ -129,11 +129,11 @@ public class UserTransactionsHelper
 			}
 			catch(ParseException e)
 			{
-				Log.w(log_tag, "Failed to parse transaction datetime format: "+e.toString());
+				Log.w(log_tag, "Failed to parse transaction datetime format", e);
 			}
 			catch(JSONException e)
 			{
-				Log.w(log_tag, "Failed to get values from new transaction: "+e.toString());
+				Log.w(log_tag, "Failed to get values from new transaction", e);
 			}
 
 			long row_id = db.insert(TABLE_NAME, null, transaction_values);
