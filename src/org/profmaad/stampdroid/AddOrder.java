@@ -196,7 +196,7 @@ public class AddOrder extends Activity
 			{
 				updateBalance(balance);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 	private void updateBalance(JSONObject balance)
 	{
@@ -385,7 +385,7 @@ public class AddOrder extends Activity
 			{
 				showOrderConfirmation(order);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 	private void showOrderConfirmation(JSONObject order)
 	{

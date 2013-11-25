@@ -85,7 +85,7 @@ public class UserTransactions extends ListActivity
 			{
 				updateTransactions(transactions_cursor);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 
 	private void updateTransactions(Cursor transactions_cursor)

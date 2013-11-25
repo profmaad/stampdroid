@@ -164,7 +164,7 @@ public class OpenOrders extends ListActivity
 			{
 				displayCancelOrderResult(result);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 	private void displayCancelOrderResult(JSONObject result)
 	{
@@ -248,7 +248,7 @@ public class OpenOrders extends ListActivity
 			{
 				updateOpenOrders(open_orders);
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 
 	private void updateOpenOrders(JSONArray open_orders)

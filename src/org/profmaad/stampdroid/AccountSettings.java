@@ -111,7 +111,7 @@ public class AccountSettings extends Activity
 				test_result_label.setText(getString(success ? R.string.api_access_test_success : R.string.api_access_test_failure));
 				test_result_label.setTextColor(success ? getResources().getColor(R.color.success) : getResources().getColor(R.color.failure));
 			}
-		}.execute(this);
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
 
 	public void scan(View view)
