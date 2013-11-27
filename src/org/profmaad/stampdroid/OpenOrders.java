@@ -30,6 +30,8 @@ public class OpenOrders extends ListActivity
 
 	private static final String EXTRA_OPEN_ORDER_JSON = "org.profmaad.stampdroid.EXTRA_OPEN_ORDER_JSON";
 
+	private MenuItem progress_indicator_menu_item = null;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -118,6 +120,10 @@ public class OpenOrders extends ListActivity
 			startAddOrderActivity();			
 			return true;
 		case R.id.action_refresh:
+			progress_indicator_menu_item = item;
+			item.setActionView(R.layout.load_progress_action_view);
+			item.expandActionView();
+
 			refresh(true);
 			return true;
 		default:
@@ -247,6 +253,12 @@ public class OpenOrders extends ListActivity
 			protected void onPostExecute(JSONArray open_orders)
 			{
 				updateOpenOrders(open_orders);
+
+				if(progress_indicator_menu_item != null)
+				{
+					progress_indicator_menu_item.collapseActionView();
+					progress_indicator_menu_item.setActionView(null);
+				}
 			}
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}

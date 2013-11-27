@@ -43,6 +43,12 @@ public class AccountOverview extends Activity
 	private ListView open_orders_list;
 	private ListView past_transactions_list;
 
+	private MenuItem progress_indicator_menu_item = null;
+	private boolean refresh_ticker_done = false;
+	private boolean refresh_balance_done = false;
+	private boolean refresh_open_orders_done = false;
+	private boolean refresh_past_transactions_done = false;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -122,6 +128,10 @@ public class AccountOverview extends Activity
 			startAddOrderActivity();
 			return true;
 		case R.id.action_refresh:
+			progress_indicator_menu_item = item;
+			item.setActionView(R.layout.load_progress_action_view);
+			item.expandActionView();
+
 			refresh(true);
 			return true;
 		case R.id.action_account_settings:
@@ -167,6 +177,11 @@ public class AccountOverview extends Activity
 	private void refresh(boolean bypass_cache)
 	{
 		final boolean bypass_cache_async = bypass_cache;
+
+		refresh_ticker_done = false;
+		refresh_balance_done = false;
+		refresh_open_orders_done = false;
+		refresh_past_transactions_done = false;		
 
 		new AsyncTask<Context, Void, JSONObject>()
 		{
@@ -278,6 +293,9 @@ public class AccountOverview extends Activity
 
 			Toast.makeText(this, "Failed to update ticker", Toast.LENGTH_SHORT).show();
 		}
+
+		refresh_ticker_done = true;
+		updateProgressIndicator();
 	}
 	private void updateBalance(JSONObject balance)
 	{
@@ -305,6 +323,9 @@ public class AccountOverview extends Activity
 
 			Toast.makeText(this, "Failed to update account balance", Toast.LENGTH_SHORT).show();
 		}
+
+		refresh_balance_done = true;
+		updateProgressIndicator();
 	}
 	
 	private void updateOpenOrders(JSONArray open_orders)
@@ -314,6 +335,9 @@ public class AccountOverview extends Activity
 		OpenOrdersArrayAdapter open_orders_array_adapter = OpenOrdersArrayAdapter.create(this, open_orders);
 		
 		open_orders_list.setAdapter(open_orders_array_adapter);
+
+		refresh_open_orders_done = true;
+		updateProgressIndicator();
 	}
 	private synchronized void updatePastTransactions(Cursor past_transactions_cursor)
 	{
@@ -322,5 +346,22 @@ public class AccountOverview extends Activity
 		PastTransactionsCursorAdapter past_transactions_cursor_adapter = new PastTransactionsCursorAdapter(this, past_transactions_cursor);
 		
 		past_transactions_list.setAdapter(past_transactions_cursor_adapter);
+
+		refresh_past_transactions_done = true;
+		updateProgressIndicator();
 	}
+
+	private synchronized void updateProgressIndicator()
+	{
+		if(progress_indicator_menu_item != null &&
+		   refresh_ticker_done &&
+		   refresh_balance_done &&
+		   refresh_open_orders_done &&
+		   refresh_past_transactions_done
+			)
+		{
+			progress_indicator_menu_item.collapseActionView();
+			progress_indicator_menu_item.setActionView(null);
+		}
+	}   
 }

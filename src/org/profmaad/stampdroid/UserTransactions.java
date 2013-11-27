@@ -20,6 +20,8 @@ public class UserTransactions extends ListActivity
 {
 	private String log_tag;
 
+	private MenuItem progress_indicator_menu_item = null;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -52,6 +54,10 @@ public class UserTransactions extends ListActivity
 		switch(item.getItemId())
 		{
 		case R.id.action_refresh:
+			progress_indicator_menu_item = item;
+			item.setActionView(R.layout.load_progress_action_view);
+			item.expandActionView();
+			
 			refresh();
 			return true;
 		default:
@@ -84,6 +90,12 @@ public class UserTransactions extends ListActivity
 			protected void onPostExecute(Cursor transactions_cursor)
 			{
 				updateTransactions(transactions_cursor);
+
+				if(progress_indicator_menu_item != null)
+				{
+					progress_indicator_menu_item.collapseActionView();
+					progress_indicator_menu_item.setActionView(null);
+				}
 			}
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
 	}
