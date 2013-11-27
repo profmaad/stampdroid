@@ -3,6 +3,7 @@ package org.profmaad.stampdroid;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.AsyncTask;
@@ -181,6 +182,12 @@ public class AddOrder extends Activity
 
 	private void refreshBalance()
 	{
+		final ProgressDialog balance_progress_dialog = new ProgressDialog(this);
+		balance_progress_dialog.setMessage("Retrieving account balance");
+		balance_progress_dialog.setIndeterminate(true);
+		balance_progress_dialog.setCancelable(false);
+		balance_progress_dialog.show();
+
 		new AsyncTask<Context, Void, JSONObject>()
 		{
 			@Override
@@ -194,6 +201,7 @@ public class AddOrder extends Activity
 			@Override
 			protected void onPostExecute(JSONObject balance)
 			{
+				balance_progress_dialog.dismiss();
 				updateBalance(balance);
 			}
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
@@ -329,6 +337,12 @@ public class AddOrder extends Activity
 		final boolean is_edit_async = is_edit;
 		final long edit_order_id_async = edit_order_id;
 
+		final ProgressDialog add_progress_dialog = new ProgressDialog(this);
+		add_progress_dialog.setMessage(is_edit_async ? "Canceling original and creating edited order" : "Creating order");
+		add_progress_dialog.setIndeterminate(true);
+		add_progress_dialog.setCancelable(false);
+		add_progress_dialog.show();
+
 		new AsyncTask<Context, Void, JSONObject>()
 		{
 			@Override
@@ -383,6 +397,7 @@ public class AddOrder extends Activity
 			@Override
 			protected void onPostExecute(JSONObject order)
 			{
+				add_progress_dialog.dismiss();
 				showOrderConfirmation(order);
 			}
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);

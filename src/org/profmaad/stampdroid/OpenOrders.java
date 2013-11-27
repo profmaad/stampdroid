@@ -5,6 +5,7 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.content.Context;
@@ -137,7 +138,15 @@ public class OpenOrders extends ListActivity
 
 		final long async_ids[] = ids;
 
-		new AsyncTask<Context, Void, JSONObject>()
+		final ProgressDialog cancel_progress_dialog = new ProgressDialog(this);
+		cancel_progress_dialog.setMessage("Canceling "+String.valueOf(ids.length)+" order" + (ids.length == 1 ? "" : "s"));
+		cancel_progress_dialog.setIndeterminate(false);
+		cancel_progress_dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		cancel_progress_dialog.setCancelable(false);
+		cancel_progress_dialog.setMax(ids.length);
+		cancel_progress_dialog.show();
+
+		new AsyncTask<Context, Integer, JSONObject>()
 		{
 			@Override
 			protected JSONObject doInBackground(Context... params)
@@ -145,9 +154,14 @@ public class OpenOrders extends ListActivity
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0], true);
 
 				JSONObject result = null;
+				int count = 0;
 				for(long order_id : async_ids)
 				{
 					result = bitstamp.cancelOrder(order_id);
+
+					count++;
+					publishProgress(count);
+
 					try
 					{
 						if(result.isNull("success") || result.getInt("success") != 1)
@@ -164,10 +178,17 @@ public class OpenOrders extends ListActivity
 				
 				return result;
 			}
+
+			@Override
+			protected void onProgressUpdate(Integer... progress)
+			{
+				cancel_progress_dialog.setProgress(progress[0]);
+			}
             
 			@Override
 			protected void onPostExecute(JSONObject result)
 			{
+				cancel_progress_dialog.dismiss();
 				displayCancelOrderResult(result);
 			}
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);

@@ -3,6 +3,7 @@ package org.profmaad.stampdroid;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.content.Context;
@@ -94,6 +95,12 @@ public class AccountSettings extends Activity
 	}
 	public void test(View view)
 	{
+		final ProgressDialog test_progress_dialog = new ProgressDialog(this);
+		test_progress_dialog.setMessage("Testing API access");
+		test_progress_dialog.setIndeterminate(true);
+		test_progress_dialog.setCancelable(false);
+		test_progress_dialog.show();
+
 		new AsyncTask<Context, Void, Boolean>()
 		{
 			@Override
@@ -108,6 +115,8 @@ public class AccountSettings extends Activity
 			@Override
 			protected void onPostExecute(Boolean success)
 			{
+				test_progress_dialog.dismiss();
+
 				test_result_label.setText(getString(success ? R.string.api_access_test_success : R.string.api_access_test_failure));
 				test_result_label.setTextColor(success ? getResources().getColor(R.color.success) : getResources().getColor(R.color.failure));
 			}
