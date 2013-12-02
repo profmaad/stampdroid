@@ -61,6 +61,13 @@ public class BitstampWebserviceConsumer
 		loadAccountSettings(context);
 	}
 
+	public void setAccountSettings(String client_id, String api_key, String api_secret)
+	{
+		this.client_id = client_id;
+		this.api_key = api_key;
+		this.api_secret = api_secret;
+	}
+
 	private boolean loadAccountSettings(Context context)
 	{
 		AccountSettingsHelper helper = new AccountSettingsHelper(context);

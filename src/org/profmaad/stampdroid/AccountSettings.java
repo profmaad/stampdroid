@@ -107,6 +107,7 @@ public class AccountSettings extends Activity
 			protected Boolean doInBackground(Context... params)
 			{
 				BitstampWebserviceConsumer bitstamp = new BitstampWebserviceConsumer(params[0]);
+				bitstamp.setAccountSettings(client_id_edit.getText().toString(), api_key_edit.getText().toString(), api_secret_edit.getText().toString());
 
 				JSONObject balance = bitstamp.balance();
 				return (balance.has("usd_balance") && balance.has("btc_balance"));
