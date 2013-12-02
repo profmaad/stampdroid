@@ -123,6 +123,7 @@ public class AddOrder extends Activity
 		{
 			public void onCheckedChanged(RadioGroup group, int checked_id)
 			{
+				updateFundsLabel();
 				refreshValues();
 			}
 		});
