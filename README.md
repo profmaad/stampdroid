@@ -4,7 +4,8 @@ StampDroid is an Android trading app for the [Bitstamp](https://www.bistamp.net)
 
 ## Build & Install
 
-StampDroid uses the Android ant-based build system and requires at least API level 18 (Android 4.3 Jelly Bean)
+StampDroid uses the Android ant-based build system and requires at least API level 18 (Android 4.3 Jelly Bean).
+`ant` must be installed and in the `PATH` for the following steps to work.
 
 * To generate the `local.properties` file: `android update project -p .` (only needs to be done once per system)
 * To build a debug binary: `ant debug`

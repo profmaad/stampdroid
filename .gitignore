@@ -30,3 +30,5 @@ proguard/
 
 # temporary resource file containing private API keys
 res/values/api.xml
+
+README.html
