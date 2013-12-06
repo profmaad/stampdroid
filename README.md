@@ -25,3 +25,5 @@ Please note that the API key must be activated. The following API permissions mu
 
 StampDroid can be used in a "read-only" mode by supplying an API key that only has the first three permissions. This allows displaying all account information, but disables creating/canceling orders. Please note that these actions will still be displayed in the GUI, but won't function. Since Bitstamp doesn't offer the ability to list the permissions for a given API key, there is no sane way of discovering whether or not order creation is enabled.
 
+# Copyright
+(c) 2013 Maximilian Wolter
