@@ -100,7 +100,6 @@ public class OpenOrders extends ListActivity
 			@Override
 			public void onDestroyActionMode(ActionMode mode)
 			{
-				// TODO
 			}
 		});
 	}

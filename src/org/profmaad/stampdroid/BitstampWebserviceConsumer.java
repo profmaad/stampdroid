@@ -350,7 +350,6 @@ public class BitstampWebserviceConsumer
 		catch(IllegalArgumentException e)
 		{
 			Log.e(log_tag, "Failed to create API call signature", e);
-			//TODO
 		}
 		catch(InvalidKeyException e)
 		{
