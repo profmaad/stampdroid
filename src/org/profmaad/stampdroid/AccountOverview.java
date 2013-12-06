@@ -109,7 +109,8 @@ public class AccountOverview extends Activity
 			{
 				updateTicker(ticker);
 			}
-		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+			//}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}.execute(this);
 	}
 
 	@Override
@@ -198,7 +199,8 @@ public class AccountOverview extends Activity
 			{
 				updateTicker(ticker);
 			}
-		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+			//}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}.execute(this);
 		
 		new AsyncTask<Context, Void, JSONObject>()
 		{
@@ -215,7 +217,8 @@ public class AccountOverview extends Activity
 			{
 				updateBalance(balance);
 			}
-		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+			//}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}.execute(this);
 		
 		new AsyncTask<Context, Void, JSONArray>()
 		{
@@ -232,7 +235,8 @@ public class AccountOverview extends Activity
 			{
 				updateOpenOrders(open_orders);
 			}
-		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+			//}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}.execute(this);
 		
 		UserTransactionsHelper helper = new UserTransactionsHelper(this);
 		Cursor user_transactions_current_cursor = helper.getDatabase().query(helper.getTableName(), null, null, null, null, null, "timestamp DESC", "5");
@@ -262,7 +266,8 @@ public class AccountOverview extends Activity
 			{
 				updatePastTransactions(past_transactions_cursor);
 			}
-		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+			//}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+		}.execute(this);
 	}
 
 	private void updateTicker(JSONObject ticker)
